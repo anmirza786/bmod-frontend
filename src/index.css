@@ -1,8 +1,7 @@
+@import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,200;0,400;0,500;1,200;1,300&display=swap");
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
+  font-family: "Josefin Sans", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background: url("./Assets/background.png");
@@ -62,7 +61,7 @@ code {
   padding: 30px;
   backdrop-filter: blur(200px);
 }
-.carousel-element .div-img img {
+.carousel-element .div-img img{
   width: 250px !important;
   height: 250px;
   /* border: 1px solid black !important; */
@@ -150,6 +149,7 @@ code {
 
 .custom-card {
   max-width: 350px;
+  height: 210px;
   position: relative;
   padding: 10px !important;
   backdrop-filter: blur(50px);
@@ -158,11 +158,14 @@ code {
 }
 .image-container {
   width: 100%;
+  height: 100%;
   padding: 0 !important;
 }
 .image-container img {
   border-radius: 5px;
-  /* opacity: 1; */
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   object-fit: cover;
   display: block;
 }
@@ -432,4 +435,77 @@ footer {
 .active-gig-card .gig-menu.visible {
   opacity: 1;
   visibility: visible;
+}
+.profile-btn {
+  border-radius: 50% !important;
+  width: 40px !important;
+  height: 40px !important;
+  padding: 0 !important;
+  background-size: cover !important;
+  background-clip: content-box !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+}
+.profile-btn {
+  align-items: center;
+  display: flex;
+}
+.prof .navbar-dropdown {
+  right: 0 !important;
+  left: -122px;
+}
+.back-blur {
+  backdrop-filter: blur(200px);
+  padding: 20px;
+}
+.back-blur .label {
+  color: white !important;
+}
+.top-navbar-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  min-height: 60px;
+  /* background: #fff; */
+  backdrop-filter: blur(200px);
+  margin-bottom: 20px;
+  color: white !important;
+  padding: 0 10%;
+}
+.w-800 {
+  max-width: 800px;
+}
+.gig_management_perseus .fit-breadcrumbs.fit-breadcrumbs-progress {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.gig_management_perseus .fit-breadcrumbs {
+  display: inline-block;
+  font-size: 14px;
+}
+.fit-breadcrumbs-icon {
+  font-size: 14px;
+  margin-right: 8px;
+  line-height: 1;
+  display: inline-flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  width: 25px;
+  height: 25px;
+  background: #c5c6c9;
+  border-radius: 50%;
+  color: #fff;
+  border-radius: 50%;
+  background-color: #62646a;
+}
+.fit-breadcrumbs-icon.active-icon {
+  background-color: #00c4a7 !important;
 }

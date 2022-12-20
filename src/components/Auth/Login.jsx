@@ -5,6 +5,7 @@ function Login(props) {
     <div className="container">
       <div className="flex center h-100">
         <form method="post" className="custom-form">
+          <h1 className="is-size-3 has-text-centered">Login</h1>
           <div className="field">
             <label className="label">Email</label>
             <div className="control">

@@ -1,10 +1,15 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 function AddGigCard(props) {
   return (
-    <div className="gig-card-base add-new-gig" style={{ color: "white", padding: "10px" }}>
+    <Link
+      className="gig-card-base add-new-gig"
+      style={{ color: "white", padding: "10px" }}
+      to="/addidea"
+    >
       Post an Entrepreneurial Idea.
-    </div>
+    </Link>
   );
 }
 

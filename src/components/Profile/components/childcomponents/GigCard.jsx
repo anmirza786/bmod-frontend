@@ -16,15 +16,20 @@ function GigCard(props) {
     setVisibleClass("gig-menu");
   };
   return (
-    <div className="gig-card-base active-gig-card">
+    <Link
+      to={`/idea/${props.idea._id}`}
+      className="gig-card-base active-gig-card"
+    >
       <span>
         <ul className={visibleClass} onMouseLeave={mouseOut}>
           <li>
             <i className="fa fa-eye"></i> Preview
           </li>
-          <li>
-            <i className="fa fa-pencil"></i> Edit
-          </li>
+          {!props.approved && (
+            <li>
+              <i className="fa fa-pencil"></i> Edit
+            </li>
+          )}
           <li>
             <i className="fa fa-line-chart"></i> Statistics
           </li>
@@ -33,7 +38,7 @@ function GigCard(props) {
           <li></li> */}
         </ul>
         <div className="header-gig-card">
-          <Link>
+          <Link to={`/idea/${props.idea._id}`}>
             <div>
               <figure>
                 <img src={Img} alt="titleimage" />
@@ -64,7 +69,7 @@ function GigCard(props) {
           </svg>
         </div>
       </span>
-    </div>
+    </Link>
   );
 }
 
