@@ -2,18 +2,14 @@ import React from "react";
 import ProfileCard from "./components/ProfileCard";
 import GigDashboard from "./components/GigDashboard";
 import DetailsCard from "./components/DetailsCard";
-import users from "../../StaticData/users";
+import { connect } from "react-redux";
+import { load_user } from "../../redux-implementation/actions";
 
-function Profile(props) {
-  let a;
-  const [is, setIs] = React.useState({});
+function Profile({ state, load_user, children }) {
   React.useEffect(() => {
-    const u = users.filter(
-      (user) => user._id === localStorage.getItem("user_id")
-    );
-    setIs(u[0]);
-    // a = u[0];
-  }, [is]);
+    load_user();
+  }, [load_user]);
+  console.log(state);
   return (
     <div className="container">
       <div
@@ -21,16 +17,21 @@ function Profile(props) {
         style={{ marginTop: "75px", justifyContent: "space-between" }}
       >
         <div className="profile-panel" style={{ minWidth: "280px" }}>
-          <ProfileCard user={is} />
-          <DetailsCard userid={is && is._id} />
+          {state.user && state.ideas && (
+            <ProfileCard user={state.user} idea={state.ideas} />
+          )}
+          {/* {state.user && <DetailsCard userid={state.user && state.user._id} />} */}
         </div>
         <div className="gig-panel">
           <GigDashboard />
-          {React.cloneElement(props.children, { user_id: is._id })}
+          {children}
         </div>
       </div>
     </div>
   );
 }
 
-export default Profile;
+const mapStateToProps = (state) => ({
+  state: state,
+});
+export default connect(mapStateToProps, { load_user })(Profile);

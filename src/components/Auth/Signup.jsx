@@ -1,24 +1,42 @@
 import React from "react";
-
-function Signup(props) {
+import { register } from "../../redux-implementation/actions";
+import { connect } from "react-redux";
+function Signup({ register }) {
   const [nextPage, setNextPage] = React.useState(false);
   const [agree, setAgree] = React.useState(false);
-  React.useEffect(() => {
-    console.log(agree);
-  }, [agree]);
+  const [firstName, setFirstName] = React.useState("");
+  const [lastName, setlastName] = React.useState("");
+  const [profile, setprofiel] = React.useState("");
+  const [cnic, setcnic] = React.useState("");
+  const [phone, setphone] = React.useState("");
+  const [ise, setise] = React.useState("");
+  const [email, setemail] = React.useState("");
+  const [password, setpassword] = React.useState("");
+  const [cpassword, setcpassword] = React.useState("");
+  // React.useEffect(() => {
+  //   console.log(agree, ise);
+  // }, [agree, ise]);
   function nextpage() {
     setNextPage(true);
   }
   function previouspage() {
     setNextPage(false);
   }
+  function formSubmit(e) {
+    e.preventDefault();
+    console.log(profile);
+    register(firstName, lastName, profile, cnic, phone, ise, email, password);
+  }
   return (
     <div className="container">
       <div className="flex center h-120">
         <form
-          method="post"
+          action="http://localhost:4001/register"
+          method="HTTP_METHOD"
+          enctype="multipart/form-data"
           className="custom-form"
           style={{ marginTop: "90px" }}
+          onSubmit={formSubmit}
         >
           {!nextPage && (
             <>
@@ -31,6 +49,8 @@ function Signup(props) {
                     className="input is-danger"
                     type="email"
                     placeholder="Email"
+                    value={email}
+                    onChange={(e) => setemail(e.target.value)}
                   />
                   <span className="icon is-small is-left">
                     <i className="fas fa-envelope"></i>
@@ -39,7 +59,7 @@ function Signup(props) {
                     <i className="fas fa-exclamation-triangle"></i>
                   </span>
                 </div>
-                <p className="help is-danger">This email is invalid</p>
+                {/* <p className="help is-danger">This email is invalid</p> */}
               </div>
               <div className="field">
                 <label className="label">Password</label>
@@ -48,6 +68,8 @@ function Signup(props) {
                     className="input"
                     type="password"
                     placeholder="Password"
+                    value={password}
+                    onChange={(e) => setpassword(e.target.value)}
                   />
                 </div>
               </div>
@@ -58,6 +80,8 @@ function Signup(props) {
                     className="input"
                     type="password"
                     placeholder="Confirm Password"
+                    value={cpassword}
+                    onChange={(e) => setcpassword(e.target.value)}
                   />
                 </div>
               </div>
@@ -65,9 +89,12 @@ function Signup(props) {
                 <label className="label">Signup as an</label>
                 <div className="control">
                   <div className="select">
-                    <select>
-                      <option>Entrepreneur</option>
-                      <option>Investor</option>
+                    <select
+                      onChange={(e) => setise(e.target.value)}
+                      onSelect={(e) => setise(e.target.value)}
+                    >
+                      <option value={1}>Entrepreneur</option>
+                      <option value={0}>Investor</option>
                     </select>
                   </div>
                 </div>
@@ -118,6 +145,8 @@ function Signup(props) {
                     autofocus
                     type="text"
                     placeholder="First Name"
+                    value={firstName}
+                    onChange={(e) => setFirstName(e.target.value)}
                   />
                 </div>
               </div>
@@ -128,6 +157,8 @@ function Signup(props) {
                     className="input"
                     type="text"
                     placeholder="Last Name"
+                    value={lastName}
+                    onChange={(e) => setlastName(e.target.value)}
                   />
                 </div>
               </div>
@@ -138,6 +169,19 @@ function Signup(props) {
                     className="input"
                     type="text"
                     placeholder="Phone Number"
+                    value={phone}
+                    onChange={(e) => setphone(e.target.value)}
+                  />
+                </div>
+              </div>
+              <div className="field">
+                <label className="label">Profile Picture</label>
+                <div className="control">
+                  <input
+                    className="input"
+                    type="file"
+                    accept=".jpg,.jpeg,.png"
+                    onChange={(e) => setprofiel(e.target.files[0])}
                   />
                 </div>
               </div>
@@ -148,20 +192,12 @@ function Signup(props) {
                     className="input"
                     type="text"
                     placeholder="CNIC Number"
+                    value={cnic}
+                    onChange={(e) => setcnic(e.target.value)}
                   />
                 </div>
               </div>
-              <div className="field">
-                <label className="label">Last Name</label>
-                <div className="control">
-                  <input
-                    className="input"
-                    type="file"
-                    accept=".jpg,.jpeg,.png"
-                    placeholder="Last Name"
-                  />
-                </div>
-              </div>
+
               <div
                 className="field is-grouped flex"
                 style={{ justifyContent: "space-between" }}
@@ -176,9 +212,12 @@ function Signup(props) {
                   </button>
                 </div>
                 <div className="control">
-                  <button className="button is-link" type="submit">
-                    Signup
-                  </button>
+                  <input
+                    className="button is-link"
+                    type="submit"
+                    value="Signup"
+                    onClick={formSubmit}
+                  />
                 </div>
               </div>
             </>
@@ -189,4 +228,4 @@ function Signup(props) {
   );
 }
 
-export default Signup;
+export default connect(null, { register })(Signup);

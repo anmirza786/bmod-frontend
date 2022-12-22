@@ -1,20 +1,24 @@
 import React from "react";
-import ideas from "../../../../StaticData/ideas";
+import { connect } from "react-redux";
+
 import GigCard from "./GigCard";
 
-function Pending(props) {
-  const { user_id } = props;
+function Pending({ state }) {
   return (
     <div className="flex wrap gig-panel-content" style={{ padding: "20px 0" }}>
-      {ideas.map(
-        (idea) =>
-          idea.user === user_id &&
-          idea.is_approved === false && (
-            <GigCard key={idea._id} idea={idea} approved={idea.is_approved} />
-          )
-      )}
+      {state.user &&
+        state.ideas &&
+        state.ideas.map(
+          (idea) =>
+            idea.user === state.user._id &&
+            idea.is_approved === false && (
+              <GigCard key={idea._id} idea={idea} approved={idea.is_approved} />
+            )
+        )}
     </div>
   );
 }
-
-export default Pending;
+const mapStateToProps = (state) => ({
+  state: state,
+});
+export default connect(mapStateToProps, null)(Pending);

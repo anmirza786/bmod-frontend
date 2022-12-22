@@ -1,6 +1,8 @@
 import React from "react";
+import { connect } from "react-redux";
+import { addidea } from "../../../redux-implementation/actions";
 
-function Overview(props) {
+function Overview({ addidea }) {
   const [toOverview, setToOverview] = React.useState(true);
   const [toDescription, setToDescription] = React.useState(false);
   function move() {
@@ -16,12 +18,21 @@ function Overview(props) {
     if (view === "a") {
       if (toOverview) return "fit-breadcrumbs-icon active-icon";
       else return "fit-breadcrumbs-icon";
-    }
-    else if(view==="b")
-    {
+    } else if (view === "b") {
       if (toDescription) return "fit-breadcrumbs-icon active-icon";
       else return "fit-breadcrumbs-icon";
     }
+  }
+  const [title, settitle] = React.useState('');
+  const [thumbnail, setthumbnail] = React.useState('');
+  const [investment, setinvestment] = React.useState('');
+  const [required, setrequired] = React.useState('');
+  const [description, setdescription] = React.useState('');
+  const [video, setvideo] = React.useState('');
+  const [doc, setdoc] = React.useState('');
+  function formSubmit(e) {
+    e.preventDefault();
+    addidea(title, thumbnail, description, investment, doc, required, video);
   }
   return (
     <div className="flex column" style={{ marginTop: "75px" }}>
@@ -59,7 +70,11 @@ function Overview(props) {
           </ul>
         </nav>
       </div>
-      <form method="post" className="back-blur w-800">
+      <form
+        onSubmit={formSubmit}
+        enctype="multipart/form-data"
+        className="back-blur w-800"
+      >
         {toOverview && (
           <>
             <div className="field">
@@ -71,6 +86,8 @@ function Overview(props) {
                   required
                   type="text"
                   placeholder="Title"
+                  value={title}
+                  onChange={(e) => settitle(e.target.value)}
                 />
               </div>
             </div>
@@ -82,6 +99,7 @@ function Overview(props) {
                   className="input"
                   type="file"
                   placeholder="Thumbnail"
+                  onChange={(e) => setthumbnail(e.target.files[0])}
                 />
               </div>
             </div>
@@ -93,6 +111,8 @@ function Overview(props) {
                   className="input"
                   type="number"
                   placeholder="Investment %age"
+                  value={investment}
+                  onChange={(e) => setinvestment(e.target.value)}
                 />
               </div>
             </div>
@@ -104,6 +124,8 @@ function Overview(props) {
                   className="input"
                   type="number"
                   placeholder="Required Total Investment"
+                  value={required}
+                  onChange={(e) => setrequired(e.target.value)}
                 />
               </div>
             </div>
@@ -134,6 +156,8 @@ function Overview(props) {
                   rows="20"
                   columns="20"
                   placeholder="Description"
+                  value={description}
+                  onChange={(e) => setdescription(e.target.value)}
                 />
               </div>
             </div>
@@ -145,6 +169,8 @@ function Overview(props) {
                   className="input"
                   type="file"
                   placeholder="Video"
+                  // value={title}
+                  onChange={(e) => setvideo(e.target.files[0])}
                 />
               </div>
             </div>
@@ -156,6 +182,8 @@ function Overview(props) {
                   className="input"
                   type="file"
                   placeholder="Legal Documentation"
+                  // value={title}
+                  onChange={(e) => setdoc(e.target.files[0])}
                 />
               </div>
             </div>
@@ -172,7 +200,11 @@ function Overview(props) {
                 Previous{" "}
               </button>
               <div className="control">
-                <button className="button is-link" type="submit">
+                <button
+                  className="button is-link"
+                  type="submit"
+                  onClick={formSubmit}
+                >
                   Submit{" "}
                 </button>
               </div>
@@ -184,4 +216,4 @@ function Overview(props) {
   );
 }
 
-export default Overview;
+export default connect(null, { addidea })(Overview);

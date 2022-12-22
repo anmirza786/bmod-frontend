@@ -7,20 +7,14 @@ import "bulma-switch/dist/css/bulma-switch.min.css";
 import Img from "../../Assets/background.png";
 import { useEffect } from "react";
 import users from "../../StaticData/users";
+import { logout, checkAuthenticated } from "../../redux-implementation/actions";
+import { connect } from "react-redux";
+import { REQUEST_URL } from "../../redux-implementation/constatntURLS";
 
-function Navbar(props) {
-  let singleUser = null;
-  const [is, setIs] = useState({});
-  useEffect(() => {
-    const sing = users.filter(
-      (user) => user._id === localStorage.getItem("user_id")
-    );
-    setIs(sing[0]);
-  }, [is]);
-  function removeUser() {
-    setIs({});
-    localStorage.removeItem("user_id");
-  }
+function Navbar({ checkAuthenticated, logout, state }) {
+  React.useEffect(() => {
+    checkAuthenticated();
+  }, [checkAuthenticated]);
   return (
     <nav
       className="navbar nav-bg"
@@ -62,7 +56,7 @@ function Navbar(props) {
           <div className="navbar-end">
             <div className="navbar-item">
               <div className="buttons">
-                {!is && (
+                {!state.isAuthenticated && (
                   <>
                     <Link to="/signup" className="button is-primary">
                       <strong>Sign up</strong>
@@ -73,11 +67,15 @@ function Navbar(props) {
                   </>
                 )}
 
-                {is && (
+                {state.isAuthenticated && state.user && (
                   <div className="navbar-item has-dropdown is-hoverable prof">
                     <button
                       className="button is-light profile-btn"
-                      style={{ background: `url(${Img})` }}
+                      style={{
+                        background: `url(${
+                          REQUEST_URL + state.user.profile.replace(/\\/g, "/")
+                        })`,
+                      }}
                     ></button>
                     <div className="navbar-dropdown">
                       <div class="field" style={{ padding: "0 10px" }}>
@@ -92,7 +90,7 @@ function Navbar(props) {
                       <Link className="navbar-item" to="/profile">
                         Profile
                       </Link>
-                      <a href="#" onClick={removeUser} className="navbar-item">
+                      <a href="#" onClick={logout} className="navbar-item">
                         Logout
                       </a>
                     </div>
@@ -107,4 +105,7 @@ function Navbar(props) {
   );
 }
 
-export default Navbar;
+const mapStateToProps = (state) => ({
+  state: state,
+});
+export default connect(mapStateToProps, { logout, checkAuthenticated })(Navbar);

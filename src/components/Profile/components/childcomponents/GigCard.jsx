@@ -1,8 +1,10 @@
 import React from "react";
 import Img from "../../../../Assets/background.png";
 import { Link } from "react-router-dom";
-
-function GigCard(props) {
+import { REQUEST_URL } from "../../../../redux-implementation/constatntURLS";
+import { deleteidea } from "../../../../redux-implementation/actions";
+import { connect } from "react-redux";
+function GigCard({ idea, approved, deleteidea }) {
   const [showTooltip, setToolTip] = React.useState(false);
   const [visibleClass, setVisibleClass] = React.useState("gig-menu");
   const mouseOver = () => {
@@ -15,39 +17,45 @@ function GigCard(props) {
     setToolTip(false);
     setVisibleClass("gig-menu");
   };
+  const deleteforever = (id) => {
+    deleteidea(idea._id);
+  };
   return (
-    <Link
-      to={`/idea/${props.idea._id}`}
-      className="gig-card-base active-gig-card"
-    >
+    <div className="gig-card-base active-gig-card">
       <span>
         <ul className={visibleClass} onMouseLeave={mouseOut}>
           <li>
-            <i className="fa fa-eye"></i> Preview
+            <Link to={`/idea/${idea._id}`}>
+              <i className="fa fa-eye"></i> Preview
+            </Link>
           </li>
-          {!props.approved && (
+          {!approved && (
             <li>
-              <i className="fa fa-pencil"></i> Edit
+              <a href="#head" onClick={deleteforever}>
+                <i className="fa fa-trash"></i> Delete
+              </a>
             </li>
           )}
-          <li>
+          {/* <li>
             <i className="fa fa-line-chart"></i> Statistics
-          </li>
+          </li> */}
           {/* <li></li>
           <li className=""></li>
           <li></li> */}
         </ul>
         <div className="header-gig-card">
-          <Link to={`/idea/${props.idea._id}`}>
+          <Link to={`/idea/${idea._id}`}>
             <div>
               <figure>
-                <img src={Img} alt="titleimage" />
+                <img src={REQUEST_URL + idea.thumbnail} alt="titleimage" />
               </figure>
             </div>
             <section className="gig-title">
-              <header style={{ padding: "0 10px", color: "white" }}>
-                <h3>Hello There this is just a trial for checking.</h3>
-              </header>
+              <Link to={`/idea/${idea._id}`}>
+                <header style={{ padding: "0 10px", color: "white" }}>
+                  <h3>Hello There this is just a trial for checking.</h3>
+                </header>
+              </Link>
             </section>
           </Link>
         </div>
@@ -69,8 +77,8 @@ function GigCard(props) {
           </svg>
         </div>
       </span>
-    </Link>
+    </div>
   );
 }
 
-export default GigCard;
+export default connect(null, { deleteidea })(GigCard);

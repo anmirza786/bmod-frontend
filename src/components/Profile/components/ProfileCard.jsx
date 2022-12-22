@@ -1,13 +1,14 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Back from "../../../Assets/background.png";
-import ideas from "../../../StaticData/ideas";
+import { REQUEST_URL } from "../../../redux-implementation/constatntURLS";
 
 function ProfileCard(props) {
-  const { user } = props;
+  const { user, idea } = props;
+  console.log(props);
   function totalIdeas() {
     let count = 0;
-    ideas.map((idea) => {
+    idea.map((idea) => {
       if (idea.user === user._id) {
         count = count + 1;
       }
@@ -23,7 +24,7 @@ function ProfileCard(props) {
         className="flex flex-column img-round"
         style={{ alignItems: "center" }}
       >
-        <img src={`http://localhost:5500/${user.profile}`} alt="cardimage" />
+        <img src={REQUEST_URL + user.profile} alt="cardimage" />
         <h3 className="is-size-4 has-text-centered">
           {user.first_name} {user.last_name}
         </h3>

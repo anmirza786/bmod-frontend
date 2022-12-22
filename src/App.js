@@ -1,5 +1,5 @@
 import "bulma/css/bulma.css";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Home from "./components/Home/Home";
 import "font-awesome/css/font-awesome.css";
 import Login from "./components/Auth/Login";
@@ -14,25 +14,34 @@ import Pending from "./components/Profile/components/childcomponents/Pending";
 import AddGig from "./components/AddGig/AddGig";
 import Overview from "./components/AddGig/Components/Overview";
 import GigView from "./components/views-gigs/GigView";
+import { connect } from "react-redux";
+import { checkAuthenticated } from "./redux-implementation/actions";
+import ProtectedRoute from "./components/Common/protectedRoute";
 
-function App() {
-  React.useEffect(() => {
-    localStorage.setItem("user_id", "639fb7692d575b0588e3eb76");
-  }, []);
+function App({ checkAuthenticated, state }) {
+  React.useEffect(async () => {
+    await checkAuthenticated();
+  }, [checkAuthenticated]);
   return (
     <main>
       <Navbar />
       {/* <div className="container"> */}
       <Switch>
         <Route path="/home" component={Home} />
-        <Route path="/signup" component={Signup} />
+        <Route
+          path="/signup"
+          render={() => {
+            if (!state.isAuthenticated) return <Signup />;
+            else return <Redirect to="/profile" />;
+          }}
+        />
         <Route path="/login" component={Login} />
         <Route path="/addidea" component={AddGig} />
         <Route path="/editprofile/:id" component={EditProfile} />
         <Route path="/profile/editidea/:id" component={Overview} />
         <Route path="/idea/:id" component={GigView} />
-        {/* <Route path="/profile" component={Profile} /> */}
-        <Route
+        {/* <ProtectedRoute path="/profile" component={Profile} /> */}
+        <ProtectedRoute
           exact
           path="/profile/active"
           render={() => {
@@ -43,7 +52,7 @@ function App() {
             );
           }}
         />
-        <Route
+        <ProtectedRoute
           exact
           path="/profile/pending"
           render={() => {
@@ -63,4 +72,7 @@ function App() {
   );
 }
 
-export default App;
+const mapStateToProps = (state) => ({
+  state: state,
+});
+export default connect(mapStateToProps, { checkAuthenticated })(App);

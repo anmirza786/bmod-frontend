@@ -1,8 +1,7 @@
 import * as actions from "./actionTypes";
 
 const initialState = {
-  access: localStorage.getItem("access"),
-  refresh: localStorage.getItem("refresh"),
+  token: localStorage.getItem("token"),
   isAuthenticated: null,
   error: null,
   user: null,
@@ -18,6 +17,8 @@ const initialState = {
   product: {},
   generalVoucher: {},
   balanceSheet: [],
+  ideas: [],
+  idea: {},
 };
 
 export function reducer(state = initialState, action) {
@@ -28,159 +29,79 @@ export function reducer(state = initialState, action) {
         error: null,
         loading: true,
       };
-    case actions.GET_BALANCE_SHEET_SUCCESS:
-      return {
-        loading: false,
-        balanceSheet: payload,
-        error: null,
-      };
 
-    case actions.GET_BALANCE_SHEET_FAIL:
-      return {
-        loading: false,
-        error: payload,
-        balanceSheet: null,
-      };
-
-    case actions.ADD_GENERAL_VOUCHER_SUCCESS:
-      return {
-        loading: false,
-        error: null,
-        generalVoucher: payload.data,
-      };
-
-    case actions.ADD_GENERAL_VOUCHER_FAIL:
-      return {
-        loading: false,
-        error: payload,
-        generalVoucher: null,
-      };
-
-    case actions.ADDED_ACCOUNT_SUCCESS:
-      return {
-        ...state,
-        error: null,
-        loading: false,
-        account: payload.data,
-      };
-
-    case actions.ADD_PRODUCT_SUCCESS:
-      return {
-        ...state,
-        error: null,
-        loading: false,
-        product: payload.data,
-      };
-
-    case actions.ADD_PRODUCT_FAIL:
+    case actions.GET_IDEA_FAIL:
       return {
         ...state,
         error: payload,
         loading: false,
-        product: null,
+        ideas: null,
       };
 
-    case actions.ADD_ACCOUNT_FAIL:
+    case actions.GET_IDEA_SUCCESS:
       return {
         ...state,
-        error: payload.error,
+        error: null,
         loading: false,
-        account: null,
+        ideas: payload.data,
       };
 
-    case actions.ADD_WHEAT_PURCHASE_FAIL:
+    case actions.ADDED_IDEA_FAIL:
       return {
         ...state,
         error: payload,
         loading: false,
-        wheatPurchase: null,
       };
-    case actions.ADD_WHEAT_SALE_FAIL:
+
+    case actions.ADDED_IDEA_SUCCESS:
+      return {
+        ...state,
+        error: null,
+        loading: false,
+      };
+
+    case actions.GET_SINGLE_IDEA_FAIL:
       return {
         ...state,
         error: payload,
         loading: false,
-        wheatSale: null,
+        idea: null,
       };
 
-    case actions.ADD_COTTON_PURCHASE_FAIL:
+    case actions.GET_SINGLE_IDEA_SUCCESS:
+      return {
+        ...state,
+        error: null,
+        loading: false,
+        idea: payload,
+      };
+    case actions.EDITED_PROFILE_FAIL:
       return {
         ...state,
         error: payload,
         loading: false,
-        cottonPurchase: null,
       };
 
-    case actions.ADD_COTTON_SALE_FAIL:
+    case actions.EDITED_IDEA_SUCCESS:
+      return {
+        ...state,
+        error: null,
+        loading: false,
+      };
+
+    case actions.DELETE_IDEA_SUCCESS:
       return {
         ...state,
         error: payload,
         loading: false,
-        cottonSale: null,
       };
 
-    case actions.ADD_COTTON_PURCHASE_SUCCESS:
+    case actions.DELETE_IDEA_FAIL:
       return {
         ...state,
-        cottonPurchase: payload.data,
-        loading: false,
         error: null,
-      };
-
-    case actions.ADD_COTTON_SALE_SUCCESS:
-      return {
-        ...state,
-        cottonSale: payload.data,
         loading: false,
-        error: null,
-      };
-
-    case actions.ADDGROUP_SUCCESS:
-      return {
-        ...state,
-        group: payload,
-        loading: false,
-        error: null,
-      };
-
-    case actions.ADD_WHEAT_PURCHASE_SUCCESS:
-      return {
-        ...state,
-        wheatPurchase: payload.data,
-        loading: false,
-        error: null,
-      };
-
-    case actions.ADD_WHEAT_SALE_SUCCESS:
-      return {
-        ...state,
-        wheatSale: payload.data,
-        loading: false,
-        error: null,
-      };
-
-    case actions.GET_GROUPS_SUCCESS:
-      return {
-        ...state,
-        groupsList: payload,
-        loading: false,
-        error: null,
-      };
-
-    case actions.GET_ACCOUNTS_LIST_SUCCESS:
-      return {
-        ...state,
-        accountsList: payload.data,
-        loading: false,
-        error: null,
-      };
-
-    case actions.GET_ACCOUNTS_LIST_FAIL:
-    case actions.GET_GROUPS_FAIL:
-      return {
-        ...state,
-        loading: false,
-        error: payload.error,
+        idea: payload,
       };
 
     case actions.AUTHENTICATED_SUCCESS:
@@ -191,7 +112,7 @@ export function reducer(state = initialState, action) {
         error: null,
       };
     case actions.AUTHENTICATED_FAIL:
-      localStorage.removeItem("access");
+      localStorage.removeItem("token");
       return {
         ...state,
         isAuthenticated: false,
@@ -199,16 +120,16 @@ export function reducer(state = initialState, action) {
         error: action.error,
       };
     case actions.LOGIN_SUCCESS:
-      localStorage.setItem("access", payload.access_token);
-      localStorage.setItem("refresh", payload.refresh_token);
+      localStorage.setItem("token", payload.token);
+      // localStorage.setItem("refresh", payload.refresh_token);
       return {
         ...state,
         isAuthenticated: true,
         loading: false,
         error: null,
         user: payload.user,
-        access: payload.access,
-        refresh: payload.refresh,
+        token: payload.token,
+        // refresh: payload.refresh,
       };
     case actions.SIGNUP_SUCCESS:
       return {
@@ -233,19 +154,12 @@ export function reducer(state = initialState, action) {
       return {
         ...state,
         loading: false,
-        access: null,
-        refresh: null,
+        token: null,
         isAuthenticated: false,
         user: null,
         error: action.error,
       };
 
-    case actions.ADDGROUP_FAIL:
-      return {
-        ...state,
-        loading: false,
-        error: action.error,
-      };
     default:
       return state;
   }

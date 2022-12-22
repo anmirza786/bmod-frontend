@@ -1,4 +1,6 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import { REQUEST_URL } from "../../redux-implementation/constatntURLS";
 import investors from "../../StaticData/investors";
 
 function Card(props) {
@@ -14,11 +16,10 @@ function Card(props) {
     let percentage = (count / idea.required_investment) * 100;
     return percentage;
   }
-  console.log(getProgress());
   return (
-    <div className="custom-card">
+    <Link to={`/idea/${idea._id}`} className="custom-card">
       <div className="image-container">
-        <img src={`http://localhost:5500/${idea.thumbnail}`} alt="cardimage" />
+        <img src={REQUEST_URL + idea.thumbnail} alt="cardimage" />
       </div>
       <div className="content-card">
         <h3>{idea.name}</h3>
@@ -45,7 +46,7 @@ function Card(props) {
           </progress>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
 

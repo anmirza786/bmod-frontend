@@ -1,22 +1,26 @@
 import React from "react";
+import { connect } from "react-redux";
 import ideas from "../../../../StaticData/ideas";
 import AddGigCard from "./AddGigCard";
 import GigCard from "./GigCard";
 
-function Active(props) {
-  const { user_id } = props;
+function Active({ state }) {
   return (
     <div className="flex wrap gig-panel-content" style={{ padding: "20px 0" }}>
-      {ideas.map(
-        (idea) =>
-          idea.user === user_id &&
-          idea.is_approved === true && (
-            <GigCard key={idea._id} idea={idea} approved={idea.is_approved} />
-          )
-      )}
+      {state.user &&
+        state.ideas &&
+        state.ideas.map(
+          (idea) =>
+            idea.user !== state.user._id &&
+            idea.is_approved === true && (
+              <GigCard key={idea._id} idea={idea} approved={idea.is_approved} />
+            )
+        )}
       <AddGigCard />
     </div>
   );
 }
-
-export default Active;
+const mapStateToProps = (state) => ({
+  state: state,
+});
+export default connect(mapStateToProps, null)(Active);

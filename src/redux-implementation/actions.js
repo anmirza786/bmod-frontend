@@ -9,29 +9,27 @@ export const checkAuthenticated = () => async (dispatch) => {
   const config = {
     headers: {
       Accept: "application/json",
-      Authorization: `Bearer ${localStorage.getItem("access")}`,
+      "x-access-token": localStorage.getItem("token"),
     },
   };
-  await axios.get(REQUEST_URL + `users/me/`, config).then((res) => {
-    dispatch({
-      type: actions.AUTHENTICATED_SUCCESS,
-    });
-  });
   try {
-    const res = await axios.get(`http://127.0.0.1:8000/api/users/me/`, config);
+    const res = await axios.get(REQUEST_URL + "welcome", config);
     console.log(res);
     dispatch({
       type: actions.AUTHENTICATED_SUCCESS,
     });
+    dispatch(load_user());
+    dispatch(getideas());
   } catch (err) {
     dispatch({
       type: actions.AUTHENTICATED_FAIL,
       payload: err,
     });
+    dispatch(getideas());
   }
 };
 
-export const login = (email, password) => async (dispatch) => {
+export const signin = (email, password) => async (dispatch) => {
   dispatch({
     type: actions.AUTHENTICATED_START,
   });
@@ -42,12 +40,12 @@ export const login = (email, password) => async (dispatch) => {
   };
   const body = JSON.stringify({ email, password });
   try {
-    const res = await axios.post(REQUEST_URL + `login/`, body, config);
+    const res = await axios.post(REQUEST_URL + `login`, body, config);
     dispatch({
       type: actions.LOGIN_SUCCESS,
       payload: res.data,
     });
-    // dispatch(load_user());
+    dispatch(checkAuthenticated());
   } catch (error) {
     console.log(error, "error");
     dispatch({
@@ -58,16 +56,15 @@ export const login = (email, password) => async (dispatch) => {
 };
 
 export const load_user = () => async (dispatch) => {
-  if (localStorage.getItem("access")) {
+  if (localStorage.getItem("token")) {
     const config = {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer   ${localStorage.getItem("access")}`,
-        Accept: "application/json",
+        "x-access-token": localStorage.getItem("token"),
       },
     };
     try {
-      await axios.get(REQUEST_URL + `api/users/me/`, config).then((res) =>
+      await axios.get(REQUEST_URL + `users/me/`, config).then((res) =>
         dispatch({
           type: actions.USER_LOADED_SUCCESS,
           payload: res.data,
@@ -87,539 +84,202 @@ export const load_user = () => async (dispatch) => {
 };
 
 export const logout = () => (dispatch) => {
-  localStorage.removeItem("access");
+  localStorage.removeItem("token");
   dispatch({
     type: actions.LOGOUT,
   });
   console.log(localStorage.getItem("token"));
 };
-
-export const addgroup = (name) => async (dispatch) => {
-  dispatch({
-    type: actions.REQUEST_START,
-  });
-  const body = JSON.stringify({
-    // eslint-disable-next-line no-restricted-globals
-    name,
-  });
-  const config = {
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${localStorage.getItem("access")}`,
-      Accept: "application/json",
-    },
-  };
-  await axios
-    .post(REQUEST_URL + `group/add/`, body, config)
-    .then((res) => {
-      dispatch({
-        type: actions.ADDGROUP_SUCCESS,
-        payload: res.data,
-      });
-      console.log(res);
-    })
-    .catch((error) => {
-      dispatch({
-        error: error,
-        type: actions.ADDGROUP_FAIL,
-      });
-    });
-};
-
-export const addgeneralvoucher =
-  (credit_list, debit_list) => async (dispatch) => {
-    dispatch({
-      type: actions.REQUEST_START,
-    });
-    console.log(credit_list, debit_list);
-    const body = JSON.stringify({
-      // eslint-disable-next-line no-restricted-globals
-      credit_list: credit_list,
-      debit_list: debit_list,
-    });
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("access")}`,
-        Accept: "application/json",
-      },
-    };
-    await axios
-      .post(REQUEST_URL + `gernal/vocher/add/`, body, config)
-      .then((res) => {
-        dispatch({
-          type: actions.ADD_GENERAL_VOUCHER_SUCCESS,
-          payload: res.data,
-        });
-        console.log(res);
-      })
-      .catch((error) => {
-        console.log(error);
-        dispatch({
-          error: error,
-          type: actions.ADD_GENERAL_VOUCHER_FAIL,
-        });
-      });
-  };
-
-export const groupList = () => async (dispatch) => {
-  dispatch({
-    type: actions.REQUEST_START,
-  });
-  const config = {
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${localStorage.getItem("access")}`,
-      Accept: "application/json",
-    },
-  };
-  await axios
-    .get(REQUEST_URL + `groups/`, config)
-    .then((res) => {
-      dispatch({
-        type: actions.GET_GROUPS_SUCCESS,
-        payload: res.data,
-      });
-      console.log(res);
-    })
-    .catch((error) => {
-      dispatch({
-        error: error,
-        type: actions.GET_GROUPS_FAIL,
-      });
-    });
-};
-
-export const accountList = () => async (dispatch) => {
-  dispatch({
-    type: actions.REQUEST_START,
-  });
-  const config = {
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${localStorage.getItem("access")}`,
-      Accept: "application/json",
-    },
-  };
-  await axios
-    .get(REQUEST_URL + `account/list/`, config)
-    .then((res) => {
-      dispatch({
-        type: actions.GET_ACCOUNTS_LIST_SUCCESS,
-        payload: res.data,
-      });
-      console.log(res);
-    })
-    .catch((error) => {
-      dispatch({
-        error: error,
-        type: actions.GET_ACCOUNTS_LIST_FAIL,
-      });
-    });
-};
-
-export const addaccount =
-  (account_name, group_id, phone_number, opening_balance = 0) =>
-  async (dispatch) => {
-    dispatch({
-      type: actions.REQUEST_START,
-    });
-    const body = JSON.stringify({
-      // eslint-disable-next-line no-restricted-globals
-      account_name,
-      group_id,
-      phone_number,
-      opening_balance,
-    });
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("access")}`,
-        Accept: "application/json",
-      },
-    };
-    await axios
-      .post(REQUEST_URL + `account/add/`, body, config)
-      .then((res) => {
-        dispatch({
-          type: actions.ADDED_ACCOUNT_SUCCESS,
-          payload: res.data,
-        });
-        console.log(res);
-      })
-      .catch((error) => {
-        dispatch({
-          error: error,
-          type: actions.ADD_ACCOUNT_FAIL,
-        });
-      });
-  };
-
-export const addwheatpurchase =
+export const register =
   (
-    name,
-    bouri,
-    thela,
-    date,
-    phone_number,
-    vechicle_number,
-    weight,
-    kat,
-    product_name,
-    purchase_amount,
-    total_amount,
-    company_name,
-    net_weight,
-    bar_dana,
-    vechicle_rent,
-    net_amount
-  ) =>
-  async (dispatch) => {
-    dispatch({
-      type: actions.REQUEST_START,
-    });
-    // console.log(body);
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("access")}`,
-        Accept: "application/json",
-      },
-    };
-    const body = JSON.stringify({
-      name,
-      bouri,
-      thela,
-      date,
-      phone_number,
-      vechicle_number,
-      weight,
-      kat,
-      product_name,
-      purchase_amount,
-      total_amount,
-      company_name,
-      net_weight,
-      bar_dana,
-      vechicle_rent,
-      net_amount,
-    });
-    console.log(body);
-    await axios
-      .post(REQUEST_URL + `wheat/purchase/add/`, body, config)
-      .then((res) => {
-        dispatch({
-          type: actions.ADD_WHEAT_PURCHASE_SUCCESS,
-          payload: res.data,
-        });
-        console.log(res);
-      })
-      .catch((error) => {
-        dispatch({
-          error: error,
-          type: actions.ADD_WHEAT_PURCHASE_FAIL,
-        });
-      });
-  };
-
-export const addwheatsale =
-  (
-    name,
-    gate_no,
-    bouri,
-    thela,
-    date,
-    phone_number,
-    vechicle_number,
-    weight,
-    kat,
-    product_name,
-    sale_ammount,
-    total_amount,
-    company_name,
-    net_weight,
-    bar_dana,
-    vechicle_rent,
-    net_amount
-  ) =>
-  async (dispatch) => {
-    dispatch({
-      type: actions.REQUEST_START,
-    });
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("access")}`,
-        Accept: "application/json",
-      },
-    };
-    const body = JSON.stringify({
-      name,
-      gate_no,
-      bouri,
-      thela,
-      date,
-      phone_number,
-      vechicle_number,
-      weight,
-      kat,
-      product_name,
-      sale_ammount,
-      total_amount,
-      company_name,
-      net_weight,
-      // bar_dana,
-      vechicle_rent,
-      net_amount,
-    });
-    console.log(body);
-    await axios
-      .post(REQUEST_URL + `wheat/sale/add/`, body, config)
-      .then((res) => {
-        dispatch({
-          type: actions.ADD_WHEAT_SALE_SUCCESS,
-          payload: res.data,
-        });
-        console.log(res);
-      })
-      .catch((error) => {
-        dispatch({
-          error: error,
-          type: actions.ADD_WHEAT_SALE_FAIL,
-        });
-      });
-  };
-
-export const addcottonpurchase =
-  (
-    purchase_name,
-    date,
-    phone_number,
-    vechicle_number,
-    weight,
-    kat,
-    sangali,
-    quantity,
-    gate_no,
-    product_name,
-    purchase_amount,
-    total_amount,
-    company_name,
-    commision,
-    net_weight,
-    vechicle_rent,
-    net_amount
-  ) =>
-  async (dispatch) => {
-    dispatch({
-      type: actions.REQUEST_START,
-    });
-    // console.log(body);
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("access")}`,
-        Accept: "application/json",
-      },
-    };
-    const body = JSON.stringify({
-      purchase_name,
-      date,
-      phone_number,
-      vechicle_number,
-      weight,
-      kat,
-      sangali,
-      quantity,
-      gate_no,
-      product_name,
-      purchase_amount,
-      total_amount,
-      company_name,
-      commision,
-      net_weight,
-      vechicle_rent,
-      net_amount,
-    });
-    console.log(body);
-    await axios
-      .post(REQUEST_URL + `cotton/purchase/add/`, body, config)
-      .then((res) => {
-        dispatch({
-          type: actions.ADD_COTTON_PURCHASE_SUCCESS,
-          payload: res.data,
-        });
-        console.log(res);
-      })
-      .catch((error) => {
-        dispatch({
-          error: error,
-          type: actions.ADD_COTTON_PURCHASE_FAIL,
-        });
-      });
-  };
-
-export const addcottonsale =
-  (
-    saler_name,
-    date,
-    phone_number,
-    vechicle_number,
-    weight,
-    kat,
-    sangali,
-    quantity,
-    gate_no,
-    product_name,
-    sale_price,
-    total_amount,
-    company_name,
-    commision,
-    net_weight,
-    vechicle_rent,
-    net_amount
-  ) =>
-  async (dispatch) => {
-    dispatch({
-      type: actions.REQUEST_START,
-    });
-    // console.log(body);
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("access")}`,
-        Accept: "application/json",
-      },
-    };
-    const body = JSON.stringify({
-      saler_name,
-      date,
-      phone_number,
-      vechicle_number,
-      weight,
-      kat,
-      sangali,
-      quantity,
-      gate_no,
-      product_name,
-      sale_price,
-      total_amount,
-      company_name,
-      commision,
-      net_weight,
-      vechicle_rent,
-      net_amount,
-    });
-    console.log(body);
-    await axios
-      .post(REQUEST_URL + `cotton/sale/add/`, body, config)
-      .then((res) => {
-        dispatch({
-          type: actions.ADD_COTTON_SALE_SUCCESS,
-          payload: res.data,
-        });
-        console.log(res);
-      })
-      .catch((error) => {
-        dispatch({
-          error: error,
-          type: actions.ADD_COTTON_SALE_FAIL,
-        });
-      });
-  };
-
-export const getbalancesheet = (start, end) => async (dispatch) => {
-  dispatch({
-    type: actions.REQUEST_START,
-  });
-
-  const config = {
-    headers: {
-      Accept: "application/json",
-      start: start,
-      end: end,
-      Authorization: `Bearer ${localStorage.getItem("access")}`,
-    },
-  };
-  await axios
-    .get(REQUEST_URL + `balance/sheet/`, config)
-    .then((res) => {
-      dispatch({
-        type: actions.GET_BALANCE_SHEET_SUCCESS,
-        payload: res.data,
-      });
-      console.log(res);
-    })
-    .catch((error) => {
-      dispatch({
-        error: error,
-        type: actions.GET_BALANCE_SHEET_FAIL,
-      });
-    });
-};
-
-export const addtypesofproducts = (name) => async (dispatch) => {
-  dispatch({
-    type: actions.REQUEST_START,
-  });
-  console.log(name);
-  const config = {
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${localStorage.getItem("access")}`,
-      Accept: "application/json",
-    },
-  };
-  const body = JSON.stringify({
-    name,
-  });
-  console.log(body);
-  await axios
-    .post(REQUEST_URL + `product/add/`, body, config)
-    .then((res) => {
-      dispatch({
-        type: actions.ADD_PRODUCT_SUCCESS,
-        payload: res.data,
-      });
-      console.log(res);
-    })
-    .catch((error) => {
-      dispatch({
-        error: error,
-        type: actions.ADD_PRODUCT_FAIL,
-      });
-    });
-};
-
-export const signup = (email, username, password) => async (dispatch) => {
-  dispatch({
-    type: actions.AUTHENTICATED_START,
-  });
-  const body = JSON.stringify({
-    username,
+    first_name,
+    last_name,
+    profile,
+    cnic,
+    phone,
+    is_entreprenure,
     email,
-    password,
-  });
+    password
+  ) =>
+  async (dispatch) => {
+    dispatch({
+      type: actions.AUTHENTICATED_START,
+    });
+    const form = new FormData();
+    form.append("first_name", first_name);
+    form.append("last_name", last_name);
+    form.append("phone", phone);
+    form.append("cnic", cnic);
+    form.append("is_entreprenure", is_entreprenure);
+    form.append("profile", profile);
+    form.append("email", email);
+    form.append("password", password);
+
+    const config = {
+      headers: {
+        "Content-Type": `multipart/form-data; boundary=${form._boundary}`,
+      },
+    };
+    await axios
+      .post(REQUEST_URL + `register`, form, config)
+      .then((res) => {
+        dispatch(signin(email, password));
+        dispatch({
+          type: actions.SIGNUP_SUCCESS,
+          payload: res.data,
+        });
+        // dispatch(load_user());
+      })
+      .catch((error) => {
+        dispatch({
+          error: error,
+          type: actions.SIGNUP_FAIL,
+        });
+      });
+  };
+
+export const getideas = () => async (dispatch) => {
   const config = {
     headers: {
       "Content-Type": "application/json",
+      // "x-access-token": localStorage.getItem("token"),
     },
   };
-  await axios
-    .post(REQUEST_URL + `signup/`, body, config)
-    .then((res) => {
-      dispatch(login(email, password));
+  try {
+    await axios.get(REQUEST_URL + `ideas`, config).then((res) => {
       dispatch({
-        type: actions.SIGNUP_SUCCESS,
-        payload: res.data,
-      });
-      console.log(res);
-      dispatch(load_user());
-    })
-    .catch((error) => {
-      dispatch({
-        error: error,
-        type: actions.SIGNUP_FAIL,
+        type: actions.GET_IDEA_SUCCESS,
+        payload: res,
       });
     });
+  } catch (err) {
+    console.log(err, "this is error while getting user");
+    dispatch({
+      type: actions.GET_IDEA_FAIL,
+    });
+  }
 };
+export const addidea =
+  (
+    name,
+    thumbnail,
+    description,
+    investment_percentage,
+    legal_documentation,
+    required_investment,
+    video
+  ) =>
+  async (dispatch) => {
+    dispatch({
+      type: actions.REQUEST_START,
+    });
+    const form = new FormData();
+    form.append("name", name);
+    form.append("description", description);
+    form.append("thumbnail", thumbnail);
+    form.append("investment_percentage", investment_percentage);
+    form.append("legal_documentation", legal_documentation);
+    form.append("required_investment", required_investment);
+    form.append("video", video);
+
+    const config = {
+      headers: {
+        "Content-Type": `multipart/form-data; boundary=${form._boundary}`,
+        "x-access-token": localStorage.getItem("token"),
+      },
+    };
+    await axios
+      .post(REQUEST_URL + `idea`, form, config)
+      .then((res) => {
+        dispatch({
+          type: actions.ADDED_IDEA_SUCCESS,
+          payload: res.data,
+        });
+        // dispatch(load_user());
+      })
+      .catch((error) => {
+        dispatch({
+          error: error,
+          type: actions.ADDED_IDEA_FAIL,
+        });
+      });
+  };
+export const getidea = (id) => async (dispatch) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      // "x-access-token": localStorage.getItem("token"),
+    },
+  };
+  try {
+    await axios.get(REQUEST_URL + `ideas/${id}`, config).then((res) => {
+      dispatch({
+        type: actions.GET_SINGLE_IDEA_SUCCESS,
+        payload: res.data,
+      });
+    });
+  } catch (err) {
+    console.log(err, "this is error while getting user");
+    dispatch({
+      type: actions.GET_SINGLE_IDEA_FAIL,
+    });
+  }
+};
+
+export const deleteidea = (id) => async (dispatch) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      "x-access-token": localStorage.getItem("token"),
+    },
+  };
+  try {
+    await axios.delete(REQUEST_URL + `deleteidea/${id}`, config).then((res) => {
+      dispatch({
+        type: actions.DELETE_IDEA_SUCCESS,
+        payload: res.data,
+      });
+      dispatch(getideas());
+    });
+  } catch (err) {
+    console.log(err, "this is error while getting user");
+    dispatch({
+      type: actions.DELETE_IDEA_FAIL,
+    });
+  }
+};
+
+export const updateprofile =
+  (first_name, last_name, profile, cnic, phone, id) => async (dispatch) => {
+    dispatch({
+      type: actions.REQUEST_START,
+    });
+    const form = new FormData();
+    if (first_name !== "") form.append("first_name", first_name);
+    if (last_name !== "") form.append("last_name", last_name);
+    if (phone !== "") form.append("phone", phone);
+    if (cnic !== "") form.append("cnic", cnic);
+    if (profile !== "") form.append("profile", profile);
+
+    const config = {
+      headers: {
+        "Content-Type": `multiparrt/form-data; boundary=${form._boundary}`,
+        "x-access-token": localStorage.getItem("token"),
+      },
+    };
+    await axios
+      .patch(REQUEST_URL + `editprofile/${id}`, form, config)
+      .then((res) => {
+        dispatch({
+          type: actions.EDITED_PROFILE_SUCCESS,
+          payload: res.data,
+        });
+        dispatch(load_user());
+      })
+      .catch((error) => {
+        dispatch({
+          error: error,
+          type: actions.EDITED_IDEA_FAIL,
+        });
+      });
+  };
