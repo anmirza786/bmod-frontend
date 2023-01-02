@@ -19,6 +19,8 @@ const initialState = {
   balanceSheet: [],
   ideas: [],
   idea: {},
+  is_entreprenure: true,
+  users: [],
 };
 
 export function reducer(state = initialState, action) {
@@ -30,6 +32,12 @@ export function reducer(state = initialState, action) {
         loading: true,
       };
 
+    case actions.SET_PROFILE_STATUS:
+      return {
+        ...state,
+        loading: false,
+        is_entreprenure: payload,
+      };
     case actions.GET_IDEA_FAIL:
       return {
         ...state,
@@ -44,6 +52,22 @@ export function reducer(state = initialState, action) {
         error: null,
         loading: false,
         ideas: payload.data,
+      };
+
+    case actions.GET_USERS_FAIL:
+      return {
+        ...state,
+        error: payload,
+        loading: false,
+        users: null,
+      };
+
+    case actions.GET_USERS_SUCCESS:
+      return {
+        ...state,
+        error: null,
+        loading: false,
+        users: payload.data,
       };
 
     case actions.ADDED_IDEA_FAIL:

@@ -73,7 +73,8 @@ function Overview({ addidea }) {
       <form
         onSubmit={formSubmit}
         enctype="multipart/form-data"
-        className="back-blur w-800"
+        className="form w-800"
+        style={{background: 'white'}}
       >
         {toOverview && (
           <>
@@ -82,7 +83,7 @@ function Overview({ addidea }) {
               <div className="control">
                 <input
                   className="input"
-                  autofocus
+                  autoFocus
                   required
                   type="text"
                   placeholder="Title"

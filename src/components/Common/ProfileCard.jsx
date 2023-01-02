@@ -1,10 +1,10 @@
+/* eslint-disable array-callback-return */
 import React from "react";
 import { Link } from "react-router-dom";
-import Back from "../../../Assets/background.png";
-import { REQUEST_URL } from "../../../redux-implementation/constatntURLS";
+import { REQUEST_URL } from "../../redux-implementation/constatntURLS";
 
 function ProfileCard(props) {
-  const { user, idea } = props;
+  const { user, idea, is_entreprenure } = props;
   console.log(props);
   function totalIdeas() {
     let count = 0;
@@ -46,14 +46,18 @@ function ProfileCard(props) {
           <span>
             <i className="fa fa-user"></i> Member Since
           </span>
-          <span>{user.member_since}</span>
-        </li>
-        <li className="flex space-around total-ideas">
           <span>
-            <i class="fa fa-lightbulb-o"></i> Total Ideas
+            {user.member_since.substring(0, user.member_since.indexOf("T"))}
           </span>
-          <span>{totalIdeas()}</span>
         </li>
+        {is_entreprenure && (
+          <li className="flex space-around total-ideas">
+            <span>
+              <i className="fa fa-lightbulb-o"></i> Total Ideas
+            </span>
+            <span>{totalIdeas()}</span>
+          </li>
+        )}
       </ul>
     </div>
   );

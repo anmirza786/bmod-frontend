@@ -1,8 +1,7 @@
 import React from "react";
-import { connect } from "react-redux";
-import ideas from "../../../../StaticData/ideas";
-import AddGigCard from "./AddGigCard";
 import GigCard from "./GigCard";
+import { connect } from "react-redux";
+import AddGigCard from "./AddGigCard";
 
 function Active({ state }) {
   return (
@@ -13,7 +12,12 @@ function Active({ state }) {
           (idea) =>
             idea.user !== state.user._id &&
             idea.is_approved === true && (
-              <GigCard key={idea._id} idea={idea} approved={idea.is_approved} />
+              <GigCard
+                key={idea._id}
+                idea={idea}
+                approved={idea.is_approved}
+                isideapage={false}
+              />
             )
         )}
       <AddGigCard />

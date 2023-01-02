@@ -12,7 +12,7 @@ function Pending({ state }) {
           (idea) =>
             idea.user === state.user._id &&
             idea.is_approved === false && (
-              <GigCard key={idea._id} idea={idea} approved={idea.is_approved} />
+              <GigCard key={idea._id} idea={idea} approved={idea.is_approved} isideapage={false} />
             )
         )}
     </div>

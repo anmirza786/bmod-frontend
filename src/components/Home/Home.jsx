@@ -11,7 +11,7 @@ function Home({ state, getideas }) {
   }, [getideas]);
   return (
     <>
-      {state.ideas && <DemoCarousel ideas={state.ideas} />}
+      <DemoCarousel />
       <DescriptionSection />
       {state.ideas && <PopularSection ideas={state.ideas} />}
     </>

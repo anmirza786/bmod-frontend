@@ -9,7 +9,7 @@ function PopularSection(props) {
       </h2>
       <div className="container">
         <div className="flex space-evenly wrap">
-          {ideas.map((idea, i) => i < 5 && <Card idea={idea} />)}
+          {ideas.map((idea, i) => i < 5 && <Card key={idea._id} idea={idea} />)}
         </div>
       </div>
     </div>

@@ -1,10 +1,11 @@
+/* eslint-disable no-unused-vars */
 import React from "react";
-import Img from "../../../../Assets/background.png";
 import { Link } from "react-router-dom";
 import { REQUEST_URL } from "../../../../redux-implementation/constatntURLS";
 import { deleteidea } from "../../../../redux-implementation/actions";
 import { connect } from "react-redux";
-function GigCard({ idea, approved, deleteidea }) {
+
+function GigCard({ idea, approved, deleteidea, isideapage }) {
   const [showTooltip, setToolTip] = React.useState(false);
   const [visibleClass, setVisibleClass] = React.useState("gig-menu");
   const mouseOver = () => {
@@ -53,29 +54,31 @@ function GigCard({ idea, approved, deleteidea }) {
             <section className="gig-title">
               <Link to={`/idea/${idea._id}`}>
                 <header style={{ padding: "0 10px", color: "white" }}>
-                  <h3>Hello There this is just a trial for checking.</h3>
+                  <h3>{idea.description}</h3>
                 </header>
               </Link>
             </section>
           </Link>
         </div>
-        <div
-          className="btn-gig-menu hint--top"
-          onMouseOver={mouseOver}
-          //   onMouseOut={mouseOut}
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="23"
-            height="10"
-            viewBox="0 0 42 10"
+        {!isideapage && (
+          <div
+            className="btn-gig-menu hint--top"
+            onMouseOver={mouseOver}
+            //   onMouseOut={mouseOut}
           >
-            <path
-              fill="#C6C6C6"
-              d="M5 0c2.8 0 5 2.2 5 5s-2.2 5-5 5-5-2.2-5-5 2.2-5 5-5zm16 0c2.8 0 5 2.2 5 5s-2.2 5-5 5-5-2.2-5-5 2.2-5 5-5zm16 0c2.8 0 5 2.2 5 5s-2.2 5-5 5-5-2.2-5-5 2.2-5 5-5z"
-            ></path>
-          </svg>
-        </div>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="23"
+              height="10"
+              viewBox="0 0 42 10"
+            >
+              <path
+                fill="#C6C6C6"
+                d="M5 0c2.8 0 5 2.2 5 5s-2.2 5-5 5-5-2.2-5-5 2.2-5 5-5zm16 0c2.8 0 5 2.2 5 5s-2.2 5-5 5-5-2.2-5-5 2.2-5 5-5zm16 0c2.8 0 5 2.2 5 5s-2.2 5-5 5-5-2.2-5-5 2.2-5 5-5z"
+              ></path>
+            </svg>
+          </div>
+        )}
       </span>
     </div>
   );

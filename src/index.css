@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,200;0,400;0,500;1,200;1,300&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap");
 body {
   margin: 0;
   font-family: "Josefin Sans", sans-serif;
@@ -8,7 +9,8 @@ body {
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
-  min-height: 100vh;
+  min-height: 90vh !important;
+  position: relative;
 }
 
 code {
@@ -39,29 +41,41 @@ code {
 .is-transparent:hover {
   background: #d5d4d2;
 }
+.search-box {
+  max-width: 50%;
+  padding: 20px;
+}
+.search-box h1 {
+  font-size: 35px !important;
+  color: white !important;
+  font-weight: 700 !important;
+  line-height: 1 !important;
+}
+.search-box .investor,
+.search-box .modren,
+.search-box .easy {
+  font-family: "Dancing Script", cursive;
+  font-weight: 700;
+  font-style: italic;
+}
 .carousel-element {
   background: transparent;
-  justify-content: center;
+  /* justify-content: center; */
+  width: 100vw;
   align-items: center;
   display: flex;
   flex-direction: row;
-  backdrop-filter: sepia(90%);
-  min-height: 100vh;
-}
-.carousel-element div {
-  padding-top: 100px;
-  flex: 1 1 0px;
-  padding-bottom: 100px;
-  color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  background-image: url("./Assets/hero-section.png");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  min-height: 616px;
 }
 .carousel-element .div-content {
   padding: 30px;
   backdrop-filter: blur(200px);
 }
-.carousel-element .div-img img{
+.carousel-element .div-img img {
   width: 250px !important;
   height: 250px;
   /* border: 1px solid black !important; */
@@ -126,6 +140,9 @@ code {
   .description-section .content-box {
     width: 100%;
   }
+  .search-box {
+    max-width: 100%;
+  }
   .description-section div {
     padding: 0.5rem;
   }
@@ -188,12 +205,16 @@ code {
 .content-card:hover {
   opacity: 1;
 }
-.custom-form {
+
+.custom-form,
+.form {
   margin-top: 60px;
   max-width: 400px;
   min-width: 300px;
   padding: 20px;
   border-radius: 5px;
+}
+.custom-form {
   backdrop-filter: blur(50px);
   color: white !important;
 }
@@ -350,7 +371,10 @@ code {
   margin-left: 10px;
 }
 footer {
-  margin-top: 10px;
+  margin-top: 10px !important;
+  position: absolute !important;
+  bottom: -10;
+  width: 100%;
 }
 
 @media screen and (max-width: 500px) {
@@ -508,4 +532,10 @@ footer {
 }
 .fit-breadcrumbs-icon.active-icon {
   background-color: #00c4a7 !important;
+}
+
+.mt-70 {
+  margin-top: 75px !important;
+  padding: 20px;
+  color: white !important;
 }

@@ -45,6 +45,7 @@ export const signin = (email, password) => async (dispatch) => {
       type: actions.LOGIN_SUCCESS,
       payload: res.data,
     });
+    dispatch(load_user(true));
     dispatch(checkAuthenticated());
   } catch (error) {
     console.log(error, "error");
@@ -55,33 +56,36 @@ export const signin = (email, password) => async (dispatch) => {
   }
 };
 
-export const load_user = () => async (dispatch) => {
-  if (localStorage.getItem("token")) {
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        "x-access-token": localStorage.getItem("token"),
-      },
-    };
-    try {
-      await axios.get(REQUEST_URL + `users/me/`, config).then((res) =>
+export const load_user =
+  (sign = false) =>
+  async (dispatch) => {
+    if (localStorage.getItem("token")) {
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          "x-access-token": localStorage.getItem("token"),
+        },
+      };
+      try {
+        await axios.get(REQUEST_URL + `users/me/`, config).then((res) => {
+          dispatch({
+            type: actions.USER_LOADED_SUCCESS,
+            payload: res.data,
+          });
+          if (sign) dispatch(setprofile(res.data.is_entreprenure));
+        });
+      } catch (err) {
+        console.log(err, "this is error while loading user");
         dispatch({
-          type: actions.USER_LOADED_SUCCESS,
-          payload: res.data,
-        })
-      );
-    } catch (err) {
-      console.log(err, "this is error while loading user");
+          type: actions.USER_LOADED_FAIL,
+        });
+      }
+    } else {
       dispatch({
         type: actions.USER_LOADED_FAIL,
       });
     }
-  } else {
-    dispatch({
-      type: actions.USER_LOADED_FAIL,
-    });
-  }
-};
+  };
 
 export const logout = () => (dispatch) => {
   localStorage.removeItem("token");
@@ -283,3 +287,36 @@ export const updateprofile =
         });
       });
   };
+
+export const setprofile = (status) => async (dispatch) => {
+  dispatch({
+    type: actions.REQUEST_START,
+  });
+  try {
+    dispatch({ type: actions.SET_PROFILE_STATUS, payload: status });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const getusers = () => async (dispatch) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      // "x-access-token": localStorage.getItem("token"),
+    },
+  };
+  try {
+    await axios.get(REQUEST_URL + `users`, config).then((res) => {
+      dispatch({
+        type: actions.GET_USERS_SUCCESS,
+        payload: res,
+      });
+    });
+  } catch (err) {
+    console.log(err, "this is error while getting users");
+    dispatch({
+      type: actions.GET_USERS_FAIL,
+    });
+  }
+};

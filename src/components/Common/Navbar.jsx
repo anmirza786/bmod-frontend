@@ -1,20 +1,26 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable jsx-a11y/alt-text */
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import CustomModal from "./CustomModal";
+import React from "react";
+import { Link, useHistory } from "react-router-dom";
 import Logo from "../../Assets/logo.png";
 import "bulma-switch/dist/css/bulma-switch.min.css";
-import Img from "../../Assets/background.png";
-import { useEffect } from "react";
-import users from "../../StaticData/users";
-import { logout, checkAuthenticated } from "../../redux-implementation/actions";
+import {
+  logout,
+  checkAuthenticated,
+  setprofile,
+} from "../../redux-implementation/actions";
 import { connect } from "react-redux";
 import { REQUEST_URL } from "../../redux-implementation/constatntURLS";
 
-function Navbar({ checkAuthenticated, logout, state }) {
+function Navbar({ checkAuthenticated, setprofile, logout, state }) {
   React.useEffect(() => {
     checkAuthenticated();
   }, [checkAuthenticated]);
+  const history = useHistory();
+  const changeProfile = (status) => {
+    setprofile(status);
+    history.push("/");
+  };
   return (
     <nav
       className="navbar nav-bg"
@@ -40,8 +46,23 @@ function Navbar({ checkAuthenticated, logout, state }) {
               </Link>
             </div>
             <div className="navbar-item">
-              <a className="button is-transparent">About</a>
+              <Link to="/ideas" className="button is-transparent">
+                Ideas
+              </Link>
             </div>
+            <div className="navbar-item">
+              <Link to="/investors" className="button is-transparent">
+                Investors
+              </Link>
+            </div>
+            <div className="navbar-item">
+              <Link to="/entrepreneur" className="button is-transparent">
+                Entrepreneures
+              </Link>
+            </div>
+            {/* <div className="navbar-item">
+              <a className="button is-transparent">About</a>
+            </div> */}
             {/* <div className="navbar-item has-dropdown is-hoverable">
               <a className="navbar-link">More</a>
               <div className="navbar-dropdown">
@@ -68,33 +89,51 @@ function Navbar({ checkAuthenticated, logout, state }) {
                 )}
 
                 {state.isAuthenticated && state.user && (
-                  <div className="navbar-item has-dropdown is-hoverable prof">
-                    <button
-                      className="button is-light profile-btn"
-                      style={{
-                        background: `url(${
-                          REQUEST_URL + state.user.profile.replace(/\\/g, "/")
-                        })`,
-                      }}
-                    ></button>
-                    <div className="navbar-dropdown">
-                      <div class="field" style={{ padding: "0 10px" }}>
-                        <input
-                          id="switchRoundedDefault"
-                          type="checkbox"
-                          name="switchRoundedDefault"
-                          class="switch is-rounded"
-                        />
-                        <label for="switchRoundedDefault">Entreprenure</label>
+                  <>
+                    {state.is_entreprenure ? (
+                      <button
+                        className="button is-link is-outlined"
+                        onClick={(e) => changeProfile(false)}
+                      >
+                        Switch to Investor
+                      </button>
+                    ) : (
+                      <button
+                        className="button is-primary is-outlined"
+                        onClick={(e) => changeProfile(true)}
+                      >
+                        Switch to Entrepreneur
+                      </button>
+                    )}
+
+                    <div className="navbar-item has-dropdown is-hoverable prof">
+                      <button
+                        className="button is-light profile-btn"
+                        style={{
+                          background: `url(${
+                            REQUEST_URL + state.user.profile.replace(/\\/g, "/")
+                          })`,
+                        }}
+                      ></button>
+                      <div className="navbar-dropdown">
+                        {!state.is_entreprenure ? (
+                          <Link
+                            className="navbar-item"
+                            to="/investor-dashboard"
+                          >
+                            Dashboard
+                          </Link>
+                        ) : (
+                          <Link className="navbar-item" to="/profile">
+                            Profile
+                          </Link>
+                        )}
+                        <a href="#" onClick={logout} className="navbar-item">
+                          Logout
+                        </a>
                       </div>
-                      <Link className="navbar-item" to="/profile">
-                        Profile
-                      </Link>
-                      <a href="#" onClick={logout} className="navbar-item">
-                        Logout
-                      </a>
                     </div>
-                  </div>
+                  </>
                 )}
               </div>
             </div>
@@ -108,4 +147,8 @@ function Navbar({ checkAuthenticated, logout, state }) {
 const mapStateToProps = (state) => ({
   state: state,
 });
-export default connect(mapStateToProps, { logout, checkAuthenticated })(Navbar);
+export default connect(mapStateToProps, {
+  logout,
+  checkAuthenticated,
+  setprofile,
+})(Navbar);

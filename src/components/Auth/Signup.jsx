@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
 import { register } from "../../redux-implementation/actions";
 import { connect } from "react-redux";
@@ -142,7 +143,7 @@ function Signup({ register }) {
                 <div className="control">
                   <input
                     className="input"
-                    autofocus
+                    autoFocus
                     type="text"
                     placeholder="First Name"
                     value={firstName}

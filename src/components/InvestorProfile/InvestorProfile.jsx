@@ -1,10 +1,9 @@
 import React from "react";
-import { connect } from "react-redux";
 import ProfileCard from "../Common/ProfileCard";
-import GigDashboard from "./components/GigDashboard";
+import { connect } from "react-redux";
 import { load_user } from "../../redux-implementation/actions";
 
-function Profile({ state, load_user, children }) {
+function InvestorProfile({ state, load_user, children }) {
   React.useEffect(() => {
     load_user();
   }, [load_user]);
@@ -17,18 +16,11 @@ function Profile({ state, load_user, children }) {
       >
         <div className="profile-panel" style={{ minWidth: "280px" }}>
           {state.user && state.ideas && (
-            <ProfileCard
-              user={state.user}
-              idea={state.ideas}
-              is_entreprenure={true}
-            />
+            <ProfileCard user={state.user} idea={state.ideas} is_entreprenure={false} />
           )}
           {/* {state.user && <DetailsCard userid={state.user && state.user._id} />} */}
         </div>
-        <div className="gig-panel">
-          <GigDashboard />
-          {children}
-        </div>
+        <div className="gig-panel">{children}</div>
       </div>
     </div>
   );
@@ -37,4 +29,4 @@ function Profile({ state, load_user, children }) {
 const mapStateToProps = (state) => ({
   state: state,
 });
-export default connect(mapStateToProps, { load_user })(Profile);
+export default connect(mapStateToProps, { load_user })(InvestorProfile);

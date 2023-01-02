@@ -1,8 +1,7 @@
+/* eslint-disable no-unused-vars */
 import React from "react";
 import { connect } from "react-redux";
-import { REQUEST_URL } from "../../redux-implementation/constatntURLS";
 import { updateprofile } from "../../redux-implementation/actions";
-import { Redirect } from "react-router-dom";
 
 function EditProfile({ state, updateprofile, history }) {
   const [firstName, setFirstName] = React.useState(state.user.first_name);
@@ -23,16 +22,16 @@ function EditProfile({ state, updateprofile, history }) {
             action={`http://localhost:4001/editprofile/${state.user._id}`}
             method="HTTP_METHOD"
             enctype="multipart/form-data"
-            className="custom-form"
+            className="form"
             onSubmit={formSubmit}
-            style={{ marginTop: "90px" }}
+            style={{ marginTop: "90px", background: "white" }}
           >
             <div className="field">
               <label className="label">First Name</label>
               <div className="control">
                 <input
                   className="input"
-                  autofocus
+                  autoFocus
                   type="text"
                   placeholder="First Name"
                   value={firstName}

@@ -1,33 +1,37 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
-import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
-import { Carousel } from "react-responsive-carousel";
-import { REQUEST_URL } from "../../../redux-implementation/constatntURLS";
 
 function DemoCarousel(props) {
-  const { ideas } = props;
-  console.log(ideas);
   return (
-    <Carousel
-      autoPlay={true}
-      // dynamicHeight={true}
-      infiniteLoop={true}
-      interval={3000}
-      showArrows={false}
-      showThumbs={false}
-      showIndicators={false}
-      showStatus={false}
-    >
-      {ideas.map((idea) => (
-        <div className="carousel-element">
-          <div className="div-img">
-            <img src={REQUEST_URL + idea.thumbnail} alt="cardimage" />
-          </div>
-          <div className="div-content">
-            <p>{idea.description}</p>
-          </div>
+    <div className="carousel-element">
+      <div className="container">
+        <div className="search-box">
+          <h1>
+            Find the <span className="investor">investors</span> for your
+            business idea in a <span className="modren">modren</span> and{" "}
+            <span className="easy">easy way</span>.
+          </h1>
+          <form className="field is-grouped" style={{ marginTop: "20px",background: 'white',borderRadius: '5px' }}>
+            <div
+              className="control is-expanded"
+              style={{
+                margin: "0",
+                borderRight: "none",
+              }}
+            >
+              <input
+                className="input"
+                type="text"
+                placeholder="Search an Idea."
+              />
+            </div>
+            <div className="control">
+              <a className="button is-info">Search</a>
+            </div>
+          </form>
         </div>
-      ))}
-    </Carousel>
+      </div>
+    </div>
   );
 }
 
