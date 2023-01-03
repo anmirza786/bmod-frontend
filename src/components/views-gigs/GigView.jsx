@@ -3,12 +3,37 @@ import { connect } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getidea } from "../../redux-implementation/actions";
 import { REQUEST_URL } from "../../redux-implementation/constatntURLS";
+import PayPalCheckout from "../Common/PaypalCheckout";
+// import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
+// import paypal from "paypal-checkout";
+// let ReactButton = paypal.Button.driver("react", {
+//   React: window.React,
+//   ReactDOM: window.ReactDOM,
+// });
 function GigView({ getidea, state }) {
   const { id } = useParams();
+  const [investment, setInvestment] = React.useState(0);
 
   React.useEffect(() => {
     getidea(id);
-  });
+  }, []);
+  function showPaymentForm() {
+    document.getElementById("invest-button").style.display = "none";
+    document.getElementById("invest-form").style.display = "flex";
+  }
+  function onChangeinvestment(e) {
+    setInvestment(e.target.value);
+    let mininvestment = state.idea.required_investment * 0.3;
+    console.log(mininvestment);
+    if (investment > mininvestment) {
+      return false;
+    } else return true;
+  }
+  function showPayPal(e) {
+    e.preventDefault();
+    // document.getElementById("invest-form").style.display = "none";
+    document.getElementById("paypal").style.display = "flex";
+  }
   return (
     <div className="container">
       {state.idea && (
@@ -116,20 +141,57 @@ function GigView({ getidea, state }) {
                 {state.idea.investment_percentage}%
               </span>
             </div>
-            { !state.is_entreprenure && (
+            {!state.is_entreprenure && (
               <button
+                id="invest-button"
                 className="button is-link"
                 style={{ width: "100%", marginTop: "10px" }}
+                onClick={showPaymentForm}
               >
                 Invest
               </button>
             )}
-            {/* <button
-              className="button is-Primary"
-              style={{ width: "100%", marginTop: "10px" }}
+            <form
+              onSubmit={showPayPal}
+              id="invest-form"
+              style={{
+                display: "none",
+                justifyContent: "center",
+                alignItems: "center",
+                marginTop: "20px",
+              }}
             >
-              Contact Entreprenure
-            </button> */}
+              <input
+                type="number"
+                className="input"
+                placeholder="Investment"
+                value={investment}
+                onChange={(e) => setInvestment(e.target.value)}
+              />
+              <input
+                type="submit"
+                value="Invest"
+                className="button"
+                disabled={onChangeinvestment}
+              />
+            </form>
+            <div
+              id="paypal"
+              style={{
+                display: "none",
+                justifyContent: "center",
+                alignItems: "center",
+                marginTop: "20px",
+              }}
+            >
+              {/* <PayPalScriptProvider>
+                <PayPalButtons />
+              </PayPalScriptProvider> */}
+
+              {investment > 0 && (
+                <PayPalCheckout total={investment} idea={id} />
+              )}
+            </div>
           </div>
         </div>
       )}

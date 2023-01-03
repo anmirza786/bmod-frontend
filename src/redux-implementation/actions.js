@@ -320,3 +320,32 @@ export const getusers = () => async (dispatch) => {
     });
   }
 };
+
+export const invest = (idea, invested) => async (dispatch) => {
+  dispatch({
+    type: actions.REQUEST_START,
+  });
+  const body = JSON.stringify({ idea, invested });
+
+  const config = {
+    headers: {
+      "Content-Type": `application/json`,
+      "x-access-token": localStorage.getItem("token"),
+    },
+  };
+  await axios
+    .post(REQUEST_URL + `invest`, body, config)
+    .then((res) => {
+      dispatch({
+        type: actions.ADDED_IDEA_SUCCESS,
+        payload: res.data,
+      });
+      // dispatch(load_user());
+    })
+    .catch((error) => {
+      dispatch({
+        error: error,
+        type: actions.ADDED_IDEA_FAIL,
+      });
+    });
+};

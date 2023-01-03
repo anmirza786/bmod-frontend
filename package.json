@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@anmirza37/alchamist": "^0.0.12",
+    "@paypal/react-paypal-js": "^7.8.2",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -11,6 +12,7 @@
     "bulma": "^0.9.4",
     "bulma-switch": "^2.0.4",
     "font-awesome": "^4.7.0",
+    "paypal-checkout": "^4.0.336",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-modal": "^3.16.1",
