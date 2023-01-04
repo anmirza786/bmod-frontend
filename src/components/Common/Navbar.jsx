@@ -32,11 +32,35 @@ function Navbar({ checkAuthenticated, setprofile, logout, state }) {
           <Link to="/home" className="navbar-item">
             <img src={Logo} width="112" height="28" />
           </Link>
-          <button className="navbar-burger">
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
-          </button>
+          {/* <button className="navbar-burger"> */}
+                    {/* <div className="navbar-burger navbar-item has-dropdown is-hoverable prof">
+                      <button
+                        className="button is-light profile-btn"
+                        style={{
+                          background: `url(${
+                            REQUEST_URL + state.user.profile.replace(/\\/g, "/")
+                          })`,
+                        }}
+                      ></button> */}
+                      {/* <div className="navbar-dropdown">
+                        {!state.is_entreprenure ? (
+                          <Link
+                            className="navbar-item"
+                            to="/investor-dashboard"
+                          >
+                            Dashboard
+                          </Link>
+                        ) : (
+                          <Link className="navbar-item" to="/profile">
+                            Profile
+                          </Link>
+                        )}
+                        <a href="#" onClick={logout} className="navbar-item">
+                          Logout
+                        </a>
+                      </div> */}
+                    {/* </div> */}
+          {/* </button> */}
         </div>
         <div id="navbarBasicExample" className="navbar-menu">
           <div className="navbar-start">

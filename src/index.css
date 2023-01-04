@@ -5,12 +5,16 @@ body {
   font-family: "Josefin Sans", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: url("./Assets/background.png");
+  /* background: url("./Assets/background.png"); */
+  background-color: rgb(71,33,105);
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
   min-height: 90vh !important;
   position: relative;
+}
+main{
+  padding-bottom: 80px;
 }
 
 code {
@@ -373,7 +377,7 @@ code {
 footer {
   margin-top: 10px !important;
   position: absolute !important;
-  bottom: -10;
+  bottom: 0;
   width: 100%;
 }
 

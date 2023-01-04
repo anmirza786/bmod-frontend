@@ -20,6 +20,7 @@ export const checkAuthenticated = () => async (dispatch) => {
     });
     dispatch(load_user());
     dispatch(getideas());
+    dispatch(getusers());
   } catch (err) {
     dispatch({
       type: actions.AUTHENTICATED_FAIL,

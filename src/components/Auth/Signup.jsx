@@ -25,7 +25,7 @@ function Signup({ register }) {
   }
   function formSubmit(e) {
     e.preventDefault();
-    console.log(profile);
+    console.log(ise);
     register(firstName, lastName, profile, cnic, phone, ise, email, password);
   }
   return (
@@ -91,9 +91,16 @@ function Signup({ register }) {
                 <div className="control">
                   <div className="select">
                     <select
-                      onChange={(e) => setise(e.target.value)}
-                      onSelect={(e) => setise(e.target.value)}
+                    onChange={(e) => {
+                      setise(e.target.value);
+                      console.log(e.target.value, ise);
+                    }}
+                      onSelect={(e) => {
+                        setise(e.target.value);
+                        console.log(e.target.value, ise);
+                      }}
                     >
+                      <option value="">Select Status</option>
                       <option value={1}>Entrepreneur</option>
                       <option value={0}>Investor</option>
                     </select>
