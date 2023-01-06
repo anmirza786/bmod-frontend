@@ -5,8 +5,7 @@ body {
   font-family: "Josefin Sans", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* background: url("./Assets/background.png"); */
-  background-color: rgb(71,33,105);
+  background: url("./Assets/background.png");
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
@@ -73,7 +72,7 @@ code {
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
-  min-height: 616px;
+  min-height: 620px;
 }
 .carousel-element .div-content {
   padding: 30px;
