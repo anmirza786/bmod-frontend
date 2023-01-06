@@ -8,11 +8,13 @@ function UserCard(props) {
   console.log(props);
   function totalIdeas() {
     let count = 0;
-    ideas.map((idea) => {
-      if (idea.user === user._id) {
-        count = count + 1;
-      }
-    });
+    if (ideas) {
+      ideas.map((idea) => {
+        if (idea.user === user._id) {
+          count = count + 1;
+        }
+      });
+    }
     return count;
   }
   return (

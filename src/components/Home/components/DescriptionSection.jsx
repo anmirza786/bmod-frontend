@@ -8,15 +8,21 @@ function DescriptionSection(props) {
       <div className="container">
         <div className="flex row content">
           <div className="content-box">
-            <h2 style={{ color: "white" }}>
+            <h2 style={{ color: "#472169" }}>
               A whole new way for Entrepreneurs and Idea Makers to Raise
               Investments.
             </h2>
-            <p style={{ color: "white" }}>
-            BEMOD - The Business Model is as the name suggests a platform that will allow Entrepreneurs to show their business models to Investors and for Investors to look for authentic and interesting business models to invest in. Such a versatile platform does not exist currently in the market.
+            <p style={{ color: "#472169" }}>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo
+              tempore, consequatur ullam qui hic ab molestiae magni dignissimos
+              quidem deserunt quis? Repellendus a, placeat natus consequuntur
+              consequatur iusto aut? Laborum.
             </p>
-            <p style={{ color: "white" }}>
-            Users will be able to have online meetings with each other related to business models and only verified users allowed to invest or show their business models. For the verification of the business model, it would be required for the uploader of the business model to upload a verified authority certificate.
+            <p style={{ color: "#472169" }}>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis
+              aut sit laboriosam vero eaque expedita ducimus aspernatur ea nobis
+              similique odit excepturi tempore, dolorum nesciunt velit iure id
+              quo dolorem.
             </p>
           </div>
           <CustomModal

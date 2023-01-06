@@ -21,6 +21,10 @@ const initialState = {
   idea: {},
   is_entreprenure: true,
   users: [],
+  search: [],
+  postedidea: null,
+  investors: [],
+  approved: false,
 };
 
 export function reducer(state = initialState, action) {
@@ -38,6 +42,21 @@ export function reducer(state = initialState, action) {
         loading: false,
         is_entreprenure: payload,
       };
+    case actions.GET_INVESTORS_FAIL:
+      return {
+        ...state,
+        error: payload,
+        loading: false,
+        investors: null,
+      };
+
+    case actions.GET_INVESTORS_SUCCESS:
+      return {
+        ...state,
+        error: null,
+        loading: false,
+        investors: payload.data,
+      };
     case actions.GET_IDEA_FAIL:
       return {
         ...state,
@@ -52,6 +71,21 @@ export function reducer(state = initialState, action) {
         error: null,
         loading: false,
         ideas: payload.data,
+      };
+    case actions.APPROVE_IDEA_FAIL:
+      return {
+        ...state,
+        error: payload,
+        loading: false,
+        approved: false,
+      };
+
+    case actions.APPROVE_IDEA_SUCCESS:
+      return {
+        ...state,
+        error: null,
+        loading: false,
+        approved: true,
       };
 
     case actions.GET_USERS_FAIL:
@@ -75,6 +109,7 @@ export function reducer(state = initialState, action) {
         ...state,
         error: payload,
         loading: false,
+        postedidea: null,
       };
 
     case actions.ADDED_IDEA_SUCCESS:
@@ -82,6 +117,7 @@ export function reducer(state = initialState, action) {
         ...state,
         error: null,
         loading: false,
+        postedidea: payload,
       };
 
     case actions.GET_SINGLE_IDEA_FAIL:
@@ -127,7 +163,20 @@ export function reducer(state = initialState, action) {
         loading: false,
         idea: payload,
       };
-
+    case actions.GET_SEARCH_SUCCESS:
+      return {
+        ...state,
+        search: payload.data,
+        loading: false,
+        error: null,
+      };
+    case actions.GET_SEARCH_FAIL:
+      return {
+        ...state,
+        search: false,
+        loading: false,
+        error: action.error,
+      };
     case actions.AUTHENTICATED_SUCCESS:
       return {
         ...state,
