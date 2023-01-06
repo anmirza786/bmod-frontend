@@ -91,10 +91,10 @@ function Signup({ register }) {
                 <div className="control">
                   <div className="select">
                     <select
-                    onChange={(e) => {
-                      setise(e.target.value);
-                      console.log(e.target.value, ise);
-                    }}
+                      onChange={(e) => {
+                        setise(e.target.value);
+                        console.log(e.target.value, ise);
+                      }}
                       onSelect={(e) => {
                         setise(e.target.value);
                         console.log(e.target.value, ise);

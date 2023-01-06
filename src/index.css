@@ -6,14 +6,14 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   /* background: url("./Assets/background.png"); */
-  background-color: rgb(71,33,105);
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
+  /* background-color: rgb(71,33,105); */
+  background-size: cover !important;
+  background-repeat: no-repeat !important;
+  background-attachment: fixed !important;
   min-height: 90vh !important;
   position: relative;
 }
-main{
+main {
   padding-bottom: 80px;
 }
 
@@ -108,7 +108,17 @@ code {
   padding: 1.5rem;
 }
 .description-section .content {
-  backdrop-filter: blur(50px);
+  /* backdrop-filter: blur(50px); */
+  background-color: white;
+  color: #472169;
+  border-radius: 20px;
+  border-top-left-radius: 80px;
+  border-bottom-right-radius: 80px;
+
+}
+.description-section h2,
+.description-section p {
+  text-align: justify;
 }
 .description-section div {
   padding: 1.5rem;

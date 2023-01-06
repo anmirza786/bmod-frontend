@@ -8,17 +8,17 @@ function DescriptionSection(props) {
       <div className="container">
         <div className="flex row content">
           <div className="content-box">
-            <h2 style={{ color: "white" }}>
+            <h2 style={{ color: "#472169" }}>
               A whole new way for Entrepreneurs and Idea Makers to Raise
               Investments.
             </h2>
-            <p style={{ color: "white" }}>
+            <p style={{ color: "#472169" }}>
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo
               tempore, consequatur ullam qui hic ab molestiae magni dignissimos
               quidem deserunt quis? Repellendus a, placeat natus consequuntur
               consequatur iusto aut? Laborum.
             </p>
-            <p style={{ color: "white" }}>
+            <p style={{ color: "#472169" }}>
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis
               aut sit laboriosam vero eaque expedita ducimus aspernatur ea nobis
               similique odit excepturi tempore, dolorum nesciunt velit iure id

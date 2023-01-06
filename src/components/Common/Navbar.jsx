@@ -33,7 +33,7 @@ function Navbar({ checkAuthenticated, setprofile, logout, state }) {
             <img src={Logo} width="112" height="28" />
           </Link>
           {/* <button className="navbar-burger"> */}
-                    {/* <div className="navbar-burger navbar-item has-dropdown is-hoverable prof">
+          {/* <div className="navbar-burger navbar-item has-dropdown is-hoverable prof">
                       <button
                         className="button is-light profile-btn"
                         style={{
@@ -42,7 +42,7 @@ function Navbar({ checkAuthenticated, setprofile, logout, state }) {
                           })`,
                         }}
                       ></button> */}
-                      {/* <div className="navbar-dropdown">
+          {/* <div className="navbar-dropdown">
                         {!state.is_entreprenure ? (
                           <Link
                             className="navbar-item"
@@ -59,7 +59,7 @@ function Navbar({ checkAuthenticated, setprofile, logout, state }) {
                           Logout
                         </a>
                       </div> */}
-                    {/* </div> */}
+          {/* </div> */}
           {/* </button> */}
         </div>
         <div id="navbarBasicExample" className="navbar-menu">
@@ -114,13 +114,17 @@ function Navbar({ checkAuthenticated, setprofile, logout, state }) {
 
                 {state.isAuthenticated && state.user && (
                   <>
-                    {state.is_entreprenure ? (
+                    {state.is_entreprenure && state.user.isAdmin !== true ? (
                       <button
                         className="button is-link is-outlined"
                         onClick={(e) => changeProfile(false)}
                       >
                         Switch to Investor
                       </button>
+                    ) : state.user.isAdmin === true ? (
+                      <Link className="button is-primary" to="/admin/dashboard">
+                        Dashboard
+                      </Link>
                     ) : (
                       <button
                         className="button is-primary is-outlined"
@@ -140,13 +144,16 @@ function Navbar({ checkAuthenticated, setprofile, logout, state }) {
                         }}
                       ></button>
                       <div className="navbar-dropdown">
-                        {!state.is_entreprenure ? (
+                        {!state.is_entreprenure &&
+                        state.user.isAdmin !== true ? (
                           <Link
                             className="navbar-item"
                             to="/investor-dashboard"
                           >
                             Dashboard
                           </Link>
+                        ) : state.user.isAdmin === true ? (
+                          ""
                         ) : (
                           <Link className="navbar-item" to="/profile">
                             Profile

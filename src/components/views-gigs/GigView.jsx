@@ -1,16 +1,35 @@
 import React from "react";
 import { connect } from "react-redux";
-import { useParams } from "react-router-dom";
-import { getidea } from "../../redux-implementation/actions";
+import { useLocation, useParams } from "react-router-dom";
+import {
+  getidea,
+  getideas,
+  approveidea,
+} from "../../redux-implementation/actions";
 import { REQUEST_URL } from "../../redux-implementation/constatntURLS";
 import PayPalCheckout from "../Common/PaypalCheckout";
+import Img from "../../Assets/background.png";
+import svg from "./download.svg";
+import toast, { Toaster } from "react-hot-toast";
 // import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
 // import paypal from "paypal-checkout";
 // let ReactButton = paypal.Button.driver("react", {
 //   React: window.React,
 //   ReactDOM: window.ReactDOM,
 // });
-function GigView({ getidea, state }) {
+function GigView({ getidea, getideas, approveidea, state }) {
+  const location = useLocation();
+  React.useEffect(() => {
+    if (location.pathname === "/home") {
+      const body = document.getElementsByTagName("body");
+      body[0].style.background = "#472169";
+      console.log(body[0], body[0].style);
+    } else {
+      const body = document.getElementsByTagName("body");
+      body[0].style.background = `url(${Img})`;
+      console.log(body[0], body[0].style);
+    }
+  }, []);
   const { id } = useParams();
   const [investment, setInvestment] = React.useState(0);
 
@@ -34,8 +53,22 @@ function GigView({ getidea, state }) {
     // document.getElementById("invest-form").style.display = "none";
     document.getElementById("paypal").style.display = "flex";
   }
+  const [approved, setapproved] = React.useState(false);
+  function approve(app) {
+    setapproved(app);
+    if (approved === false) {
+      approveidea(app, id);
+      getidea(id);
+      toast.success("Approved Successfully 🎉.");
+    } else {
+      approveidea(app, id);
+      getidea(id);
+      toast.success("Disapproved Successfully 😢.");
+    }
+  }
   return (
     <div className="container">
+      <Toaster />
       {state.idea && (
         <div className="flex wrap" style={{ marginTop: "80px" }}>
           <div
@@ -141,57 +174,97 @@ function GigView({ getidea, state }) {
                 {state.idea.investment_percentage}%
               </span>
             </div>
-            {!state.is_entreprenure && (
-              <button
-                id="invest-button"
-                className="button is-link"
-                style={{ width: "100%", marginTop: "10px" }}
-                onClick={showPaymentForm}
-              >
-                Invest
-              </button>
-            )}
-            <form
-              onSubmit={showPayPal}
-              id="invest-form"
-              style={{
-                display: "none",
-                justifyContent: "center",
-                alignItems: "center",
-                marginTop: "20px",
-              }}
-            >
-              <input
-                type="number"
-                className="input"
-                placeholder="Investment"
-                value={investment}
-                onChange={(e) => setInvestment(e.target.value)}
-              />
-              <input
-                type="submit"
-                value="Invest"
-                className="button"
-                disabled={onChangeinvestment}
-              />
-            </form>
-            <div
-              id="paypal"
-              style={{
-                display: "none",
-                justifyContent: "center",
-                alignItems: "center",
-                marginTop: "20px",
-              }}
-            >
-              {/* <PayPalScriptProvider>
+            {state.user && state.user.isAdmin !== true && (
+              <>
+                {!state.is_entreprenure && (
+                  <button
+                    id="invest-button"
+                    className="button is-link"
+                    style={{ width: "100%", marginTop: "10px" }}
+                    onClick={showPaymentForm}
+                  >
+                    Invest
+                  </button>
+                )}
+                <form
+                  onSubmit={showPayPal}
+                  id="invest-form"
+                  style={{
+                    display: "none",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    marginTop: "20px",
+                  }}
+                >
+                  <input
+                    type="number"
+                    className="input"
+                    placeholder="Investment"
+                    value={investment}
+                    onChange={(e) => setInvestment(e.target.value)}
+                  />
+                  <input
+                    type="submit"
+                    value="Invest"
+                    className="button"
+                    disabled={onChangeinvestment}
+                  />
+                </form>
+                <div
+                  id="paypal"
+                  style={{
+                    display: "none",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    marginTop: "20px",
+                  }}
+                >
+                  {/* <PayPalScriptProvider>
                 <PayPalButtons />
               </PayPalScriptProvider> */}
 
-              {investment > 0 && (
-                <PayPalCheckout total={investment} idea={id} />
-              )}
-            </div>
+                  {investment > 0 && (
+                    <PayPalCheckout total={investment} idea={id} />
+                  )}
+                </div>
+              </>
+            )}
+            {state.user && state.user.isAdmin === true && (
+              <>
+                <video controls style={{ margin: "20px 0" }}>
+                  <source src={REQUEST_URL + state.idea.video} />
+                </video>
+                <div className="flex space-around">
+                  <h3 style={{ color: "white", fontWeight: "bold" }}>
+                    Legal Docs:
+                  </h3>
+                  <div>
+                    <a
+                      style={{ color: "white" }}
+                      href={REQUEST_URL + state.idea.legal_documentation}
+                      download={true}
+                    >
+                      <img src={svg} alt="download" style={{ width: "30px" }} />
+                    </a>
+                  </div>
+                </div>
+                {!state.idea.is_approved ? (
+                  <button
+                    onClick={(e) => approve(true)}
+                    className="button is-link"
+                  >
+                    Approve
+                  </button>
+                ) : (
+                  <button
+                    onClick={(e) => approve(false)}
+                    className="button is-link"
+                  >
+                    Disapprove
+                  </button>
+                )}
+              </>
+            )}
           </div>
         </div>
       )}
@@ -201,4 +274,4 @@ function GigView({ getidea, state }) {
 const mapStateToProps = (state) => ({
   state: state,
 });
-export default connect(mapStateToProps, { getidea })(GigView);
+export default connect(mapStateToProps, { getidea, approveidea })(GigView);

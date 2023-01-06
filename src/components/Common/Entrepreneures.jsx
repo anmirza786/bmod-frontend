@@ -8,8 +8,12 @@ function Entrepreneures({ state }) {
       <div className="flex wrap space-evenly">
         {state.users &&
           state.users.map((user) =>
-            user.is_entreprenure === true ? (
-              <UserCard user={user} ideas={state.ideas} investors={state.investors} />
+            user.is_entreprenure === true && user.isAdmin !== true ? (
+              <UserCard
+                user={user}
+                investors={state.investors}
+                ideas={state.ideas}
+              />
             ) : (
               ""
             )

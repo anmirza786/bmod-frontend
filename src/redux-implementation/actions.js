@@ -198,7 +198,7 @@ export const addidea =
       .then((res) => {
         dispatch({
           type: actions.ADDED_IDEA_SUCCESS,
-          payload: res.data,
+          payload: res,
         });
         // dispatch(load_user());
       })
@@ -227,6 +227,27 @@ export const getidea = (id) => async (dispatch) => {
     console.log(err, "this is error while getting user");
     dispatch({
       type: actions.GET_SINGLE_IDEA_FAIL,
+    });
+  }
+};
+export const getinvestors = () => async (dispatch) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      // "x-access-token": localStorage.getItem("token"),
+    },
+  };
+  try {
+    await axios.get(REQUEST_URL + `investors`, config).then((res) => {
+      dispatch({
+        type: actions.GET_INVESTORS_SUCCESS,
+        payload: res.data,
+      });
+    });
+  } catch (err) {
+    console.log(err, "this is error while getting user");
+    dispatch({
+      type: actions.GET_INVESTORS_FAIL,
     });
   }
 };
@@ -289,6 +310,40 @@ export const updateprofile =
       });
   };
 
+export const approveidea = (is_approved, id) => async (dispatch) => {
+  dispatch({
+    type: actions.REQUEST_START,
+  });
+  const body = JSON.stringify({ is_approved });
+  // if (last_name !== "") form.append("last_name", last_name);
+  // if (phone !== "") form.append("phone", phone);
+  // if (cnic !== "") form.append("cnic", cnic);
+  // if (profile !== "") form.append("profile", profile);
+
+  const config = {
+    headers: {
+      "Content-Type": `application/json`,
+      "x-access-token": localStorage.getItem("token"),
+    },
+  };
+  await axios
+    .patch(REQUEST_URL + `updateidea/${id}`, body, config)
+    .then((res) => {
+      dispatch({
+        type: actions.EDITED_PROFILE_SUCCESS,
+        payload: res.data,
+      });
+      dispatch(getideas());
+      dispatch(getidea(id));
+    })
+    .catch((error) => {
+      dispatch({
+        error: error,
+        type: actions.EDITED_IDEA_FAIL,
+      });
+    });
+};
+
 export const setprofile = (status) => async (dispatch) => {
   dispatch({
     type: actions.REQUEST_START,
@@ -347,6 +402,33 @@ export const invest = (idea, invested) => async (dispatch) => {
       dispatch({
         error: error,
         type: actions.ADDED_IDEA_FAIL,
+      });
+    });
+};
+
+export const search = (name) => async (dispatch) => {
+  dispatch({
+    type: actions.REQUEST_START,
+  });
+
+  const config = {
+    headers: {
+      "Content-Type": `application/json`,
+    },
+  };
+  await axios
+    .get(REQUEST_URL + `search/${name}`, config)
+    .then((res) => {
+      dispatch({
+        type: actions.GET_SEARCH_SUCCESS,
+        payload: res.data,
+      });
+      // dispatch(load_user());
+    })
+    .catch((error) => {
+      dispatch({
+        error: error,
+        type: actions.GET_SEARCH_FAIL,
       });
     });
 };

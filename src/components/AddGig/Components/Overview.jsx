@@ -1,10 +1,22 @@
 import React from "react";
 import { connect } from "react-redux";
 import { addidea } from "../../../redux-implementation/actions";
+import toast, { Toaster } from "react-hot-toast";
 
-function Overview({ addidea }) {
+function Overview({ addidea, state }) {
   const [toOverview, setToOverview] = React.useState(true);
   const [toDescription, setToDescription] = React.useState(false);
+  React.useEffect(() => {
+    if (state.postedidea && state.postedidea.status === 200) {
+      toast.success(
+        "Your Idea is Posted and is under some checks now Kindly wait untill Admin Approves it Thanks. 😊."
+      );
+    } else if (state.postedidea && state.postedidea.status > 400) {
+      toast.error("Your Idea is not Posted 😒 Please Try Again .");
+    } else if (state.postedidea === null) {
+      toast.error("Your Idea is not Posted 😒 Please Try Again .");
+    }
+  }, [state]);
   function move() {
     if (toOverview === true) {
       setToOverview(false);
@@ -23,13 +35,13 @@ function Overview({ addidea }) {
       else return "fit-breadcrumbs-icon";
     }
   }
-  const [title, settitle] = React.useState('');
-  const [thumbnail, setthumbnail] = React.useState('');
-  const [investment, setinvestment] = React.useState('');
-  const [required, setrequired] = React.useState('');
-  const [description, setdescription] = React.useState('');
-  const [video, setvideo] = React.useState('');
-  const [doc, setdoc] = React.useState('');
+  const [title, settitle] = React.useState("");
+  const [thumbnail, setthumbnail] = React.useState("");
+  const [investment, setinvestment] = React.useState("");
+  const [required, setrequired] = React.useState("");
+  const [description, setdescription] = React.useState("");
+  const [video, setvideo] = React.useState("");
+  const [doc, setdoc] = React.useState("");
   function formSubmit(e) {
     e.preventDefault();
     addidea(title, thumbnail, description, investment, doc, required, video);
@@ -37,6 +49,7 @@ function Overview({ addidea }) {
   return (
     <div className="flex column" style={{ marginTop: "75px" }}>
       <div className="top-navbar-container wizard-mode">
+        <Toaster position="top-right" reverseOrder={true} />
         <nav className="fit-breadcrumbs top-navbar wizard fit-breadcrumbs-progress">
           <ul className="flex">
             <li className="flex" style={{ marginLeft: "20px" }}>
@@ -74,7 +87,7 @@ function Overview({ addidea }) {
         onSubmit={formSubmit}
         enctype="multipart/form-data"
         className="form w-800"
-        style={{background: 'white'}}
+        style={{ background: "white" }}
       >
         {toOverview && (
           <>
@@ -100,6 +113,7 @@ function Overview({ addidea }) {
                   className="input"
                   type="file"
                   placeholder="Thumbnail"
+                  accept=".jpg,.jpeg,.png"
                   onChange={(e) => setthumbnail(e.target.files[0])}
                 />
               </div>
@@ -171,6 +185,7 @@ function Overview({ addidea }) {
                   type="file"
                   placeholder="Video"
                   // value={title}
+                  accept="video/*"
                   onChange={(e) => setvideo(e.target.files[0])}
                 />
               </div>
@@ -184,6 +199,7 @@ function Overview({ addidea }) {
                   type="file"
                   placeholder="Legal Documentation"
                   // value={title}
+                  accept="application/pdf"
                   onChange={(e) => setdoc(e.target.files[0])}
                 />
               </div>
@@ -216,5 +232,8 @@ function Overview({ addidea }) {
     </div>
   );
 }
+const mapStateToProps = (state) => ({
+  state: state,
+});
 
-export default connect(null, { addidea })(Overview);
+export default connect(mapStateToProps, { addidea })(Overview);

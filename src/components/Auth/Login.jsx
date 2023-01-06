@@ -53,10 +53,7 @@ function Login({ signin, state }) {
         </div>
       </div>
     );
-  else if (state.isAuthenticated && state.is_entreprenure)
-    return <Redirect to="/profile/active" />;
-  else if (state.isAuthenticated && state.is_entreprenure === false)
-    return <Redirect to="/investor-dashboard" />;
+  else if (state.isAuthenticated) return <Redirect to="/" />;
 }
 const mapStateToProps = (state) => ({
   state: state,
