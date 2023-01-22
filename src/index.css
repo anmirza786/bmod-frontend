@@ -5,18 +5,10 @@ body {
   font-family: "Josefin Sans", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-<<<<<<< HEAD
   background: url("./Assets/background.png");
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
-=======
-  /* background: url("./Assets/background.png"); */
-  /* background-color: rgb(71,33,105); */
-  background-size: cover !important;
-  background-repeat: no-repeat !important;
-  background-attachment: fixed !important;
->>>>>>> ab2859220ce532510aefeba570db2eb83a856eb9
   min-height: 90vh !important;
   position: relative;
 }

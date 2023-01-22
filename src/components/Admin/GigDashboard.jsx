@@ -9,7 +9,7 @@ function GigDashboard(props) {
         style={{ textDecoration: "none", listStyle: "none", color: "white" }}
       >
         <li className="menu-link">
-          <NavLink className="nav-link" to="/admin/active">Activeate Gigs</NavLink>
+          <NavLink className="nav-link" to="/admin/active">Activate Gigs</NavLink>
         </li>
         <li className="menu-link">
           <NavLink className="nav-link" to="/admin/users">Users</NavLink>
