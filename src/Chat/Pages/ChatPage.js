@@ -1,5 +1,5 @@
 import React, { useState, useContext} from "react";
-import ChatContext from "../../Context/chat-context";
+import ChatContext from "../Context/chat-context";
 import MyChats from '../components/MyChats';
 import ChatBox from '../components/ChatBox';
 import SideDrawer from '../components/miscellaneous/SideDrawer';

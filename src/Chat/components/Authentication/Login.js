@@ -53,7 +53,7 @@ const Login = () => {
         position: "bottom",
       });
 
-      localStorage.setItem("userInformation", JSON.stringify(data));
+      
       setLoading(false);
       navigate("/chats");
     } catch (error) {

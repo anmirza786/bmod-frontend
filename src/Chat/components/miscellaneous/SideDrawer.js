@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
-import ChatContext from "../../../Context/chat-context";
+// import { useNavigate } from "react-router-dom";
+import ChatContext from "../../Context/chat-context";
 import ProfileModal from "./ProfileModal";
 import { useDisclosure } from "@chakra-ui/hooks";
 import { Box, Text } from "@chakra-ui/layout";
@@ -29,7 +29,7 @@ import ChatLoading from "../ChatLoading";
 import UserListItem from "../userAvatar/UserListItem";
 import NotificationBadge from "react-notification-badge";
 import { Effect } from "react-notification-badge";
-import { getSender } from "../../../config/ChatLogics";
+import { getSender } from "../../config/ChatLogics";
 
 
 const SideDrawer = () => {
@@ -40,14 +40,14 @@ const SideDrawer = () => {
 
   const { user, setSelectedChat, chats, setChats, notification, setNotification } = useContext(ChatContext);
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const toast = useToast();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const logoutHandler = () => {
     localStorage.removeItem("userInformation");
-    navigate("/");
+    // navigate("/");
   };
 
   const handleSearch = async() => {

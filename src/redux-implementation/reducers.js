@@ -212,11 +212,13 @@ export function reducer(state = initialState, action) {
         error: null,
       };
     case actions.USER_LOADED_SUCCESS:
+      localStorage.setItem("userInformation", JSON.stringify(payload))
       return {
         ...state,
         user: payload,
       };
     case actions.USER_LOADED_FAIL:
+      localStorage.removeItem("userInformation")
       return {
         ...state,
         user: null,

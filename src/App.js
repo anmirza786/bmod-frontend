@@ -71,7 +71,7 @@ function App({ checkAuthenticated, getusers, state }) {
             component={InvestorProfile}
           />
           {/* <ProtectedRoute path="/profile" component={Profile} /> */}
-          <ProtectedRoute path="/chats" element={<ChatPage />} />
+          <Route path="/chats" component={ChatPage} />
           <ProtectedRoute
             exact
             path="/profile/active"

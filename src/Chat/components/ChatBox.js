@@ -3,7 +3,7 @@ import React, {useContext} from 'react';
 import { Box } from "@chakra-ui/layout";
 //import "./styles.css";
 import SingleChat from "./SingleChat";
-import ChatContext from '../../Context/chat-context';
+import ChatContext from '../Context/chat-context';
 
 const Chatbox = ({ fetchAgain, setFetchAgain }) => {
 

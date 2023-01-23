@@ -1,8 +1,10 @@
 import React from "react";
 import Card from "./Card";
 import { connect } from "react-redux";
+// eslint-disable-next-line no-unused-vars
 import { LoadingComponent } from "./LoadingComponent";
 import { useLocation } from "react-router-dom";
+// eslint-disable-next-line no-unused-vars
 import Img from "../../Assets/background.png";
 function Ideas({ state }) {
   const location = useLocation();

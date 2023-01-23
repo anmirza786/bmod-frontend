@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { useLocation, useParams } from "react-router-dom";
 import {
   getidea,
+  // eslint-disable-next-line no-unused-vars
   getideas,
   approveidea,
 } from "../../redux-implementation/actions";
@@ -29,13 +30,13 @@ function GigView({ getidea, getideas, approveidea, state }) {
       body[0].style.background = `url(${Img})`;
       console.log(body[0], body[0].style);
     }
-  }, []);
+  }, [location.pathname]);
   const { id } = useParams();
   const [investment, setInvestment] = React.useState(0);
 
   React.useEffect(() => {
     getidea(id);
-  }, []);
+  }, [getidea, id]);
   function showPaymentForm() {
     document.getElementById("invest-button").style.display = "none";
     document.getElementById("invest-form").style.display = "flex";
@@ -174,6 +175,9 @@ function GigView({ getidea, getideas, approveidea, state }) {
                 {state.idea.investment_percentage}%
               </span>
             </div>
+            <video controls style={{ margin: "20px 0" }}>
+                  <source src={REQUEST_URL + state.idea.video} />
+            </video>
             {state.user && state.user.isAdmin !== true && (
               <>
                 {!state.is_entreprenure && (
@@ -231,9 +235,7 @@ function GigView({ getidea, getideas, approveidea, state }) {
             )}
             {state.user && state.user.isAdmin === true && (
               <>
-                <video controls style={{ margin: "20px 0" }}>
-                  <source src={REQUEST_URL + state.idea.video} />
-                </video>
+                
                 <div className="flex space-around">
                   <h3 style={{ color: "white", fontWeight: "bold" }}>
                     Legal Docs:

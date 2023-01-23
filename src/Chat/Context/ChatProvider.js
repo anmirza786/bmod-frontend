@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import ChatContext from "./chat-context";
 
 const ChatProvider = (props) => {
@@ -8,15 +8,15 @@ const ChatProvider = (props) => {
   const [chats, setChats] = useState([]);
   const [notification, setNotification] = useState([]);
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   useEffect(() => {
     const userInformation = JSON.parse(localStorage.getItem("userInformation"));
     setUser(userInformation);
 
-    if (!userInformation) navigate("/");
+    // if (!userInformation) navigate("/");
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [navigate]);
+  }, []);
 
   //console.log(chats, 'chats context')
   return (

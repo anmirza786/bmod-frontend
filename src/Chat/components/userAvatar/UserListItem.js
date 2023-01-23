@@ -25,7 +25,7 @@ const UserListItem = ({user, handleFunction }) => { //user !notLoggedIn //select
     >
       <Avatar mr={2} size="sm" cursor="pointer" name={user.name}/>
       <Box>
-        <Text>{user.name}</Text>
+        <Text>{user.first_name} {user.last_name}</Text>
         <Text fontSize="xs"> <b>Email : </b> {user.email} </Text>
       </Box>
     </Box>
