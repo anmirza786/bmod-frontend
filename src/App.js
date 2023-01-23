@@ -26,6 +26,7 @@ import { checkAuthenticated, getusers } from "./redux-implementation/actions";
 import AdminDashboard from "./components/Admin/AdminDashboard";
 import ActiveGigs from "./components/Admin/childcomponents/ActiveGigs";
 import Users from "./components/Admin/childcomponents/Users";
+import ChatPage from "./Chat/Pages/ChatPage";
 function App({ checkAuthenticated, getusers, state }) {
   const location = useLocation();
   React.useEffect(() => {
@@ -70,6 +71,7 @@ function App({ checkAuthenticated, getusers, state }) {
             component={InvestorProfile}
           />
           {/* <ProtectedRoute path="/profile" component={Profile} /> */}
+          <ProtectedRoute path="/chats" element={<ChatPage />} />
           <ProtectedRoute
             exact
             path="/profile/active"

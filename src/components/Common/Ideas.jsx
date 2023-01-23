@@ -6,17 +6,6 @@ import { useLocation } from "react-router-dom";
 import Img from "../../Assets/background.png";
 function Ideas({ state }) {
   const location = useLocation();
-  React.useEffect(()=>{
-    if (location.pathname === "/home") {
-      const body = document.getElementsByTagName("body");
-      body[0].style.background = "#472169";
-      console.log(body[0], body[0].style);
-    } else {
-      const body = document.getElementsByTagName("body");
-      body[0].style.background = `url(${Img})`;
-      console.log(body[0], body[0].style);
-    }
-  })
   return (
     <div className="container mt-70">
       <div className="flex wrap space-evenly">
@@ -25,13 +14,12 @@ function Ideas({ state }) {
           state.search.map((idea) =>
             idea.is_approved ? <Card key={idea._id} idea={idea} /> : ""
           )
-        ) : state.ideas ? (
-          state.ideas.map((idea) =>
+        ) : (
+          state.search && state.ideas.map((idea) =>
             idea.is_approved ? <Card key={idea._id} idea={idea} /> : ""
           )
-        ) : (
-          <LoadingComponent />
         )}
+        {state.ideas && state.ideas.map((idea, i) => i < 5 && idea.is_approved ? <Card key={idea._id} idea={idea} />:'')}
       </div>
     </div>
   );
